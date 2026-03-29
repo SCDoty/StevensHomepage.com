@@ -419,41 +419,44 @@
 
         // ── LIVERPOOL NEXT GAME ──
         (async function loadLFC() {
-            const TEAM_ID = '364';
+            const TEAM_ID = 364;
+            const now = new Date();
+            const future = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
+            const fmt = d => d.toISOString().slice(0, 10).replace(/-/g, '');
+            const dateRange = `${fmt(now)}-${fmt(future)}`;
+
             const leagues = [
                 { slug: 'eng.1',          name: 'Premier League' },
                 { slug: 'uefa.champions', name: 'Champions League' },
                 { slug: 'eng.fa',         name: 'FA Cup' },
                 { slug: 'eng.league_cup', name: 'EFL Cup' }
             ];
-            const now = Date.now();
+
             let next = null;
 
             for (const league of leagues) {
                 try {
                     const r = await fetch(
-                        `https://site.api.espn.com/apis/site/v2/sports/soccer/${league.slug}/teams/${TEAM_ID}/schedule`
+                        `https://site.api.espn.com/apis/site/v2/sports/soccer/${league.slug}/scoreboard?dates=${dateRange}&limit=200`
                     );
                     const data = await r.json();
-                    const events = data.events || [];
-                    for (const ev of events) {
+                    for (const ev of (data.events || [])) {
                         const comp = ev.competitions && ev.competitions[0];
                         if (!comp) continue;
                         const state = comp.status && comp.status.type && comp.status.type.state;
                         if (state !== 'pre') continue;
+                        const lfcComp = comp.competitors.find(c => Number(c.id) === TEAM_ID || (c.team && Number(c.team.id) === TEAM_ID));
+                        if (!lfcComp) continue;
                         const gameDate = new Date(ev.date);
                         if (gameDate <= now) continue;
                         if (!next || gameDate < next.date) {
-                            const lfc = comp.competitors.find(c => c.id === TEAM_ID);
-                            const opp = comp.competitors.find(c => c.id !== TEAM_ID);
-                            const isHome = lfc && lfc.homeAway === 'home';
+                            const opp = comp.competitors.find(c => Number(c.id) !== TEAM_ID && !(c.team && Number(c.team.id) === TEAM_ID));
                             next = {
                                 date: gameDate,
                                 league: league.name,
                                 oppName: opp && opp.team ? opp.team.displayName : 'TBD',
-                                oppLogo: opp && opp.team ? opp.team.logo : null,
                                 venue: comp.venue ? comp.venue.fullName : '',
-                                isHome
+                                isHome: lfcComp.homeAway === 'home'
                             };
                         }
                     }
