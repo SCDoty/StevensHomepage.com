@@ -186,6 +186,57 @@
 
         .cd-loading { color: #5f6368; font-size: 0.85rem; }
 
+        /* ── METRO ALERT ── */
+        #metro-alert {
+            display: none;
+            background: rgba(0,84,166,0.15);
+            border: 1px solid rgba(0,84,166,0.4);
+            border-left: 4px solid #0054a6;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+        #metro-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .metro-badge {
+            background: #f26522;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+        #metro-alert-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #8ab4f8;
+        }
+        #metro-alert-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        #metro-alert-list li {
+            font-size: 0.78rem;
+            color: #c4c7cc;
+            padding-left: 12px;
+            position: relative;
+        }
+        #metro-alert-list li::before {
+            content: '·';
+            position: absolute;
+            left: 2px;
+            color: #f26522;
+        }
+
         /* ── LINKS SECTION ── */
         .section-label {
             font-size: 0.75rem;
@@ -241,6 +292,14 @@
 
     <div id="weather-widget">
         <p id="weather-error">Fetching weather...</p>
+    </div>
+
+    <div id="metro-alert">
+        <div id="metro-alert-header">
+            <span class="metro-badge">ORANGE LINE</span>
+            <span id="metro-alert-title">Service Alert</span>
+        </div>
+        <ul id="metro-alert-list"></ul>
     </div>
 
     <div id="countdowns">
@@ -348,22 +407,24 @@
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
                 `&current=temperature_2m,weathercode,is_day,windspeed_10m` +
                 `&hourly=temperature_2m,weathercode,precipitation_probability` +
-                `&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto&forecast_days=1`;
+                `&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto&forecast_days=2`;
             fetch(url).then(r => r.json()).then(data => {
                 const cur = data.current;
                 const info = weatherInfo(cur.weathercode, cur.is_day);
                 const temp = Math.round(cur.temperature_2m);
                 const wind = Math.round(cur.windspeed_10m);
-                const currentHour = new Date().getHours();
+                const nowMs = Date.now();
                 const { time: times, temperature_2m: temps, weathercode: codes, precipitation_probability: precips } = data.hourly;
 
                 let hourlyHTML = '';
-                for (let i = 0; i < times.length; i++) {
+                let count = 0;
+                for (let i = 0; i < times.length && count < 12; i++) {
                     const t = new Date(times[i]);
-                    if (t.getHours() < currentHour) continue;
-                    const hInfo = weatherInfo(codes[i], t.getHours() >= 6 && t.getHours() < 20 ? 1 : 0);
-                    const label = t.getHours() === currentHour ? 'Now'
-                        : t.toLocaleTimeString([], { hour: 'numeric', hour12: true });
+                    if (t.getTime() < nowMs - 30 * 60 * 1000) continue;
+                    const hHour = t.getHours();
+                    const hInfo = weatherInfo(codes[i], hHour >= 6 && hHour < 20 ? 1 : 0);
+                    const isNow = count === 0;
+                    const label = isNow ? 'Now' : t.toLocaleTimeString([], { hour: 'numeric', hour12: true });
                     const precip = precips[i] > 0 ? `<div class="hour-precip">${precips[i]}%</div>` : '';
                     hourlyHTML += `<div class="hour-card">
                         <div class="hour-time">${label}</div>
@@ -371,6 +432,7 @@
                         <div class="hour-temp">${Math.round(temps[i])}°</div>
                         ${precip}
                     </div>`;
+                    count++;
                 }
                 document.getElementById('weather-widget').innerHTML = `
                     <div id="weather-current">
@@ -397,6 +459,25 @@
             document.getElementById('weather-widget').innerHTML =
                 '<p id="weather-error">Geolocation not supported.</p>';
         }
+
+        // ── WMATA ORANGE LINE ALERTS ──
+        // Demo key — get your own free key at developer.wmata.com
+        const WMATA_KEY = 'e13626d03d8e4c03ac07f95541b3091b';
+        fetch(`https://api.wmata.com/Incidents.svc/json/Incidents?api_key=${WMATA_KEY}`)
+            .then(r => r.json())
+            .then(data => {
+                const alerts = (data.Incidents || []).filter(inc =>
+                    inc.LinesAffected && inc.LinesAffected.includes('OR')
+                );
+                if (!alerts.length) return;
+                const el = document.getElementById('metro-alert');
+                const list = document.getElementById('metro-alert-list');
+                list.innerHTML = alerts.map(a =>
+                    `<li>${a.Description}</li>`
+                ).join('');
+                el.style.display = 'block';
+            })
+            .catch(() => {});
 
         // ── COUNTDOWN HELPERS ──
         function pad(n) { return String(n).padStart(2, '0'); }
