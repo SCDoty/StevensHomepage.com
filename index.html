@@ -1,88 +1,302 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Links</title>
+    <title>Homepage</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            background-color: #202124;
+            background: #131416;
             color: #e8eaed;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
+            min-height: 100vh;
+            padding: 28px 32px;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+
+        /* ── HEADER ── */
+        #header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
         }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #5f6368;
+        #greeting {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #e8eaed;
         }
-        th {
-            background-color: #303134;
+        #clock {
+            font-size: 1.1rem;
+            color: #9aa0a6;
         }
-        a {
-            color: #8ab4f8;
+
+        /* ── WEATHER WIDGET ── */
+        #weather-widget {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 32px;
+        }
+        #weather-current {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        #weather-icon { font-size: 3rem; line-height: 1; }
+        #weather-temp { font-size: 2.8rem; font-weight: 700; }
+        #weather-desc { font-size: 1rem; color: #9aa0a6; margin-top: 2px; }
+        #weather-location { font-size: 0.85rem; color: #5f6368; margin-top: 2px; }
+
+        #hourly-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #5f6368;
+            margin-bottom: 10px;
+        }
+        #hourly-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: #3c4043 transparent;
+        }
+        #hourly-scroll::-webkit-scrollbar { height: 4px; }
+        #hourly-scroll::-webkit-scrollbar-track { background: transparent; }
+        #hourly-scroll::-webkit-scrollbar-thumb { background: #3c4043; border-radius: 2px; }
+
+        .hour-card {
+            flex: 0 0 auto;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+            min-width: 64px;
+        }
+        .hour-time { font-size: 0.75rem; color: #9aa0a6; }
+        .hour-icon { font-size: 1.4rem; margin: 4px 0; }
+        .hour-temp { font-size: 0.95rem; font-weight: 600; }
+        .hour-precip { font-size: 0.7rem; color: #8ab4f8; margin-top: 2px; }
+
+        #weather-error { color: #9aa0a6; font-size: 0.9rem; }
+
+        /* ── LINKS SECTION ── */
+        #links-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #5f6368;
+            margin-bottom: 14px;
+        }
+        #card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 14px;
+        }
+        .site-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 20px 12px 16px;
+            text-align: center;
             text-decoration: none;
+            color: #e8eaed;
+            transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
-        a:hover {
-            text-decoration: underline;
+        .site-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.09);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .site-card img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #303134;
+        }
+        .site-card span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #c4c7cc;
         }
     </style>
 </head>
 <body>
-    <h1>Website Links</h1>
-    <table>
-        <tr>
-            <th>Site Name</th>
-            <th>URL</th>
-        </tr>
-	<tr>
-            <td>Claude AI</td>
-            <td><a href="https://www.claude.ai/" target="_blank">https://www.claude.ai</a></td>
-        </tr>
-        <tr>
-            <td>Peacock</td>
-            <td><a href="https://www.peacocktv.com" target="_blank">https://www.peacocktv.com</a></td>
-        </tr>
-        <tr>
-            <td>FuboTV</td>
-            <td><a href="https://www.fubo.tv" target="_blank">https://www.fubo.tv</a></td>
-        </tr>
-        <tr>
-            <td>Reddit</td>
-            <td><a href="https://www.reddit.com" target="_blank">https://www.reddit.com</a></td>
-        </tr>
-        <tr>
-            <td>OneFootball</td>
-            <td><a href="https://www.onefootball.com" target="_blank">https://www.onefootball.com</a></td>
-        </tr>
-        <tr>
-            <td>Paramount Plus</td>
-            <td><a href="https://www.paramountplus.com" target="_blank">https://www.paramountplus.com</a></td>
-        </tr>
-        <tr>
-            <td>Crunchyroll</td>
-            <td><a href="https://www.crunchyroll.com" target="_blank">https://www.crunchyroll.com</a></td>
-        </tr>
-        <tr>
-            <td>Netflix</td>
-            <td><a href="https://www.netflix.com" target="_blank">https://www.netflix.com</a></td>
-        </tr>
-        <tr>
-            <td>F1TV</td>
-            <td><a href="https://f1tv.formula1.com" target="_blank">https://f1tv.formula1.com/</a></td>
-        </tr>
-        <tr>
-            <td>Twitch</td>
-            <td><a href="https://www.twitch.tv" target="_blank">https://www.twitch.tv</a></td>
-        </tr>
-        </tr>
-    </table>
+
+    <div id="header">
+        <div id="greeting">Good morning</div>
+        <div id="clock"></div>
+    </div>
+
+    <div id="weather-widget">
+        <div id="weather-content"><p id="weather-error">Fetching weather...</p></div>
+    </div>
+
+    <div id="links-label">Quick Links</div>
+    <div id="card-grid">
+        <a class="site-card" href="https://www.claude.ai/" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="">
+            <span>Claude AI</span>
+        </a>
+        <a class="site-card" href="https://www.peacocktv.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=peacocktv.com&sz=64" alt="">
+            <span>Peacock</span>
+        </a>
+        <a class="site-card" href="https://www.fubo.tv" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=fubo.tv&sz=64" alt="">
+            <span>FuboTV</span>
+        </a>
+        <a class="site-card" href="https://www.reddit.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=reddit.com&sz=64" alt="">
+            <span>Reddit</span>
+        </a>
+        <a class="site-card" href="https://www.onefootball.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=onefootball.com&sz=64" alt="">
+            <span>OneFootball</span>
+        </a>
+        <a class="site-card" href="https://www.paramountplus.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=paramountplus.com&sz=64" alt="">
+            <span>Paramount+</span>
+        </a>
+        <a class="site-card" href="https://www.crunchyroll.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=64" alt="">
+            <span>Crunchyroll</span>
+        </a>
+        <a class="site-card" href="https://www.netflix.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="">
+            <span>Netflix</span>
+        </a>
+        <a class="site-card" href="https://f1tv.formula1.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=f1tv.formula1.com&sz=64" alt="">
+            <span>F1 TV</span>
+        </a>
+        <a class="site-card" href="https://www.twitch.tv" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=twitch.tv&sz=64" alt="">
+            <span>Twitch</span>
+        </a>
+    </div>
+
+    <script>
+        // ── CLOCK & GREETING ──
+        function updateClock() {
+            const now = new Date();
+            const h = now.getHours();
+            const m = now.getMinutes().toString().padStart(2,'0');
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = ((h % 12) || 12);
+            document.getElementById('clock').textContent = `${h12}:${m} ${ampm}`;
+
+            const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+            document.getElementById('greeting').textContent = greet;
+        }
+        updateClock();
+        setInterval(updateClock, 30000);
+
+        // ── WEATHER CODE → EMOJI + DESCRIPTION ──
+        function weatherInfo(code, isDay) {
+            if (code === 0)  return { icon: isDay ? '☀️' : '🌙', desc: 'Clear' };
+            if (code <= 2)   return { icon: '⛅', desc: 'Partly cloudy' };
+            if (code === 3)  return { icon: '☁️', desc: 'Overcast' };
+            if (code <= 49)  return { icon: '🌫️', desc: 'Foggy' };
+            if (code <= 55)  return { icon: '🌦️', desc: 'Drizzle' };
+            if (code <= 65)  return { icon: '🌧️', desc: 'Rain' };
+            if (code <= 77)  return { icon: '❄️', desc: 'Snow' };
+            if (code <= 82)  return { icon: '🌧️', desc: 'Rain showers' };
+            if (code <= 86)  return { icon: '🌨️', desc: 'Snow showers' };
+            if (code <= 99)  return { icon: '⛈️', desc: 'Thunderstorm' };
+            return { icon: '🌡️', desc: 'Unknown' };
+        }
+
+        // ── LOAD WEATHER ──
+        function loadWeather(lat, lon) {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+                `&current=temperature_2m,weathercode,is_day,windspeed_10m` +
+                `&hourly=temperature_2m,weathercode,precipitation_probability` +
+                `&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto&forecast_days=1`;
+
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    const cur = data.current;
+                    const info = weatherInfo(cur.weathercode, cur.is_day);
+                    const temp = Math.round(cur.temperature_2m);
+                    const wind = Math.round(cur.windspeed_10m);
+
+                    // Build hourly for rest of day
+                    const now = new Date();
+                    const currentHour = now.getHours();
+                    const times = data.hourly.time;
+                    const temps = data.hourly.temperature_2m;
+                    const codes = data.hourly.weathercode;
+                    const precips = data.hourly.precipitation_probability;
+
+                    let hourlyHTML = '';
+                    for (let i = 0; i < times.length; i++) {
+                        const t = new Date(times[i]);
+                        if (t.getHours() < currentHour) continue;
+                        const hInfo = weatherInfo(codes[i], t.getHours() >= 6 && t.getHours() < 20 ? 1 : 0);
+                        const label = t.getHours() === currentHour ? 'Now'
+                            : t.toLocaleTimeString([], { hour: 'numeric', hour12: true });
+                        const precip = precips[i] > 0 ? `<div class="hour-precip">${precips[i]}%</div>` : '';
+                        hourlyHTML += `
+                            <div class="hour-card">
+                                <div class="hour-time">${label}</div>
+                                <div class="hour-icon">${hInfo.icon}</div>
+                                <div class="hour-temp">${Math.round(temps[i])}°</div>
+                                ${precip}
+                            </div>`;
+                    }
+
+                    document.getElementById('weather-content').innerHTML = `
+                        <div id="weather-current">
+                            <div id="weather-icon">${info.icon}</div>
+                            <div>
+                                <div id="weather-temp">${temp}°F</div>
+                                <div id="weather-desc">${info.desc} · Wind ${wind} mph</div>
+                                <div id="weather-location">${lat.toFixed(2)}°N, ${Math.abs(lon).toFixed(2)}°W</div>
+                            </div>
+                        </div>
+                        <div id="hourly-label">Hourly forecast</div>
+                        <div id="hourly-scroll">${hourlyHTML}</div>
+                    `;
+
+                    // Scroll to current hour
+                    const scroll = document.getElementById('hourly-scroll');
+                    if (scroll && scroll.firstElementChild) {
+                        scroll.firstElementChild.scrollIntoView({ inline: 'start', behavior: 'instant' });
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('weather-content').innerHTML =
+                        '<p id="weather-error">Could not load weather data.</p>';
+                });
+        }
+
+        // ── GEOLOCATION ──
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                pos => loadWeather(pos.coords.latitude, pos.coords.longitude),
+                () => {
+                    document.getElementById('weather-content').innerHTML =
+                        '<p id="weather-error">Enable location access to see weather.</p>';
+                }
+            );
+        } else {
+            document.getElementById('weather-content').innerHTML =
+                '<p id="weather-error">Geolocation not supported by this browser.</p>';
+        }
+    </script>
 </body>
 </html>
