@@ -443,7 +443,7 @@
             .then(r => r.json())
             .then(data => {
                 const event = data.events && data.events.find(e =>
-                    e.strHomeTeam === 'Liverpool' || e.strAwayTeam === 'Liverpool'
+                    e.strHomeTeam.includes('Liverpool') || e.strAwayTeam.includes('Liverpool')
                 );
                 if (!event) return;
                 const home = event.strHomeTeam;
