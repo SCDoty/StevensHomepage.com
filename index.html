@@ -438,26 +438,23 @@
             });
 
         // ── LIVERPOOL NEXT MATCH ──
-        // Liverpool FC team ID on TheSportsDB: 133602
-        fetch('https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=133602')
+        // Liverpool FC on ESPN: league eng.1 (Premier League), team ID 364
+        fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/364')
             .then(r => r.json())
             .then(data => {
-                const event = data.events && data.events.find(e => {
-                    const teams = [e.strHomeTeam, e.strAwayTeam];
-                    return teams.some(t => t.includes('Liverpool') || t.includes('LFC'));
-                });
+                const events = data.team && data.team.nextEvent;
+                const event = events && events[0];
                 if (!event) return;
-                const home = event.strHomeTeam;
-                const away = event.strAwayTeam;
-                document.getElementById('lfc-event').textContent = `${home} vs ${away}`;
-                document.getElementById('lfc-competition').textContent = event.strLeague;
-                // dateEvent is YYYY-MM-DD, strTime is HH:MM:SS UTC
-                const timeStr = event.strTime || '00:00:00';
-                const matchDate = new Date(`${event.dateEvent}T${timeStr}Z`);
+                document.getElementById('lfc-event').textContent = event.name;
+                document.getElementById('lfc-competition').textContent =
+                    (event.season && event.season.displayName) || 'Premier League';
+                const matchDate = new Date(event.date);
                 const localDate = matchDate.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
                 const localTime = matchDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                const venue = event.competitions && event.competitions[0] && event.competitions[0].venue
+                    ? event.competitions[0].venue.fullName : '';
                 document.getElementById('lfc-sub').textContent =
-                    `${event.strVenue || event.strLeague} · ${localDate} at ${localTime}`;
+                    `${venue || 'Premier League'} · ${localDate} at ${localTime}`;
                 renderTimer('lfc-timer', matchDate);
             })
             .catch(() => {
