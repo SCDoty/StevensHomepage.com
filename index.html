@@ -20,26 +20,46 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        #greeting { font-size: 1.6rem; font-weight: 600; }
+        #clock { font-size: 1.1rem; color: #9aa0a6; }
+
+        /* ── SEARCH BAR ── */
+        #search-form {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 28px;
+            padding: 0 20px;
             margin-bottom: 24px;
+            transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
         }
-        #greeting {
-            font-size: 1.6rem;
-            font-weight: 600;
+        #search-form:focus-within {
+            background: rgba(255,255,255,0.11);
+            border-color: rgba(138,180,248,0.5);
+            box-shadow: 0 0 0 3px rgba(138,180,248,0.15);
+        }
+        #search-icon { font-size: 1.1rem; color: #9aa0a6; margin-right: 12px; flex-shrink: 0; }
+        #search-input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
             color: #e8eaed;
+            font-size: 1rem;
+            padding: 14px 0;
         }
-        #clock {
-            font-size: 1.1rem;
-            color: #9aa0a6;
-        }
+        #search-input::placeholder { color: #5f6368; }
 
         /* ── WEATHER WIDGET ── */
         #weather-widget {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(12px);
             border-radius: 16px;
             padding: 20px 24px;
-            margin-bottom: 32px;
+            margin-bottom: 16px;
         }
         #weather-current {
             display: flex;
@@ -51,7 +71,6 @@
         #weather-temp { font-size: 2.8rem; font-weight: 700; }
         #weather-desc { font-size: 1rem; color: #9aa0a6; margin-top: 2px; }
         #weather-location { font-size: 0.85rem; color: #5f6368; margin-top: 2px; }
-
         #hourly-label {
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -68,9 +87,7 @@
             scrollbar-color: #3c4043 transparent;
         }
         #hourly-scroll::-webkit-scrollbar { height: 4px; }
-        #hourly-scroll::-webkit-scrollbar-track { background: transparent; }
         #hourly-scroll::-webkit-scrollbar-thumb { background: #3c4043; border-radius: 2px; }
-
         .hour-card {
             flex: 0 0 auto;
             background: rgba(255,255,255,0.04);
@@ -84,11 +101,87 @@
         .hour-icon { font-size: 1.4rem; margin: 4px 0; }
         .hour-temp { font-size: 0.95rem; font-weight: 600; }
         .hour-precip { font-size: 0.7rem; color: #8ab4f8; margin-top: 2px; }
-
         #weather-error { color: #9aa0a6; font-size: 0.9rem; }
 
+        /* ── COUNTDOWNS ── */
+        #countdowns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .countdown-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 18px 22px;
+            position: relative;
+            overflow: hidden;
+        }
+        .countdown-card.f1 { border-color: rgba(230,0,0,0.3); }
+        .countdown-card.lfc { border-color: rgba(200,16,46,0.35); }
+        .countdown-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+        .countdown-card.f1::before { background: linear-gradient(90deg, #e60000, #ff6b6b); }
+        .countdown-card.lfc::before { background: linear-gradient(90deg, #c8102e, #f5a623); }
+
+        .cd-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .cd-badge { font-size: 1.6rem; line-height: 1; }
+        .cd-sport {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #5f6368;
+        }
+        .cd-competition { font-size: 0.85rem; color: #9aa0a6; margin-top: 1px; }
+
+        .cd-event { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .cd-sub { font-size: 0.82rem; color: #9aa0a6; margin-bottom: 14px; }
+
+        .cd-timer {
+            display: flex;
+            gap: 12px;
+        }
+        .cd-unit {
+            text-align: center;
+            min-width: 44px;
+        }
+        .cd-num {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+        .countdown-card.f1 .cd-num { color: #ff6b6b; }
+        .countdown-card.lfc .cd-num { color: #ff6b84; }
+        .cd-lbl { font-size: 0.65rem; text-transform: uppercase; color: #5f6368; letter-spacing: 0.06em; margin-top: 3px; }
+
+        .cd-live {
+            display: inline-block;
+            background: #c8102e;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 2px 8px;
+            border-radius: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
+        .cd-loading { color: #5f6368; font-size: 0.85rem; }
+
         /* ── LINKS SECTION ── */
-        #links-label {
+        .section-label {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
@@ -109,7 +202,6 @@
             text-decoration: none;
             color: #e8eaed;
             transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-            cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -126,11 +218,7 @@
             border-radius: 8px;
             background: #303134;
         }
-        .site-card span {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #c4c7cc;
-        }
+        .site-card span { font-size: 0.85rem; font-weight: 500; color: #c4c7cc; }
     </style>
 </head>
 <body>
@@ -140,11 +228,44 @@
         <div id="clock"></div>
     </div>
 
+    <form id="search-form" action="https://www.google.com/search" method="get" target="_blank">
+        <span id="search-icon">🔍</span>
+        <input id="search-input" type="text" name="q" placeholder="Search Google..." autocomplete="off">
+    </form>
+
     <div id="weather-widget">
         <div id="weather-content"><p id="weather-error">Fetching weather...</p></div>
     </div>
 
-    <div id="links-label">Quick Links</div>
+    <div id="countdowns">
+        <div class="countdown-card f1" id="f1-card">
+            <div class="cd-top">
+                <div class="cd-badge">🏎️</div>
+                <div>
+                    <div class="cd-sport">Formula 1</div>
+                    <div class="cd-competition" id="f1-competition">—</div>
+                </div>
+            </div>
+            <div class="cd-event" id="f1-event"><span class="cd-loading">Loading...</span></div>
+            <div class="cd-sub" id="f1-sub"></div>
+            <div class="cd-timer" id="f1-timer"></div>
+        </div>
+
+        <div class="countdown-card lfc" id="lfc-card">
+            <div class="cd-top">
+                <div class="cd-badge">⚽</div>
+                <div>
+                    <div class="cd-sport">Liverpool FC</div>
+                    <div class="cd-competition" id="lfc-competition">—</div>
+                </div>
+            </div>
+            <div class="cd-event" id="lfc-event"><span class="cd-loading">Loading...</span></div>
+            <div class="cd-sub" id="lfc-sub"></div>
+            <div class="cd-timer" id="lfc-timer"></div>
+        </div>
+    </div>
+
+    <div class="section-label">Quick Links</div>
     <div id="card-grid">
         <a class="site-card" href="https://www.claude.ai/" target="_blank">
             <img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="">
@@ -194,17 +315,15 @@
             const now = new Date();
             const h = now.getHours();
             const m = now.getMinutes().toString().padStart(2,'0');
-            const ampm = h >= 12 ? 'PM' : 'AM';
-            const h12 = ((h % 12) || 12);
-            document.getElementById('clock').textContent = `${h12}:${m} ${ampm}`;
-
-            const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-            document.getElementById('greeting').textContent = greet;
+            document.getElementById('clock').textContent =
+                `${(h % 12) || 12}:${m} ${h >= 12 ? 'PM' : 'AM'}`;
+            document.getElementById('greeting').textContent =
+                h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
         }
         updateClock();
         setInterval(updateClock, 30000);
 
-        // ── WEATHER CODE → EMOJI + DESCRIPTION ──
+        // ── WEATHER ──
         function weatherInfo(code, isDay) {
             if (code === 0)  return { icon: isDay ? '☀️' : '🌙', desc: 'Clear' };
             if (code <= 2)   return { icon: '⛅', desc: 'Partly cloudy' };
@@ -219,84 +338,132 @@
             return { icon: '🌡️', desc: 'Unknown' };
         }
 
-        // ── LOAD WEATHER ──
         function loadWeather(lat, lon) {
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
                 `&current=temperature_2m,weathercode,is_day,windspeed_10m` +
                 `&hourly=temperature_2m,weathercode,precipitation_probability` +
                 `&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto&forecast_days=1`;
+            fetch(url).then(r => r.json()).then(data => {
+                const cur = data.current;
+                const info = weatherInfo(cur.weathercode, cur.is_day);
+                const temp = Math.round(cur.temperature_2m);
+                const wind = Math.round(cur.windspeed_10m);
+                const currentHour = new Date().getHours();
+                const { time: times, temperature_2m: temps, weathercode: codes, precipitation_probability: precips } = data.hourly;
 
-            fetch(url)
-                .then(r => r.json())
-                .then(data => {
-                    const cur = data.current;
-                    const info = weatherInfo(cur.weathercode, cur.is_day);
-                    const temp = Math.round(cur.temperature_2m);
-                    const wind = Math.round(cur.windspeed_10m);
-
-                    // Build hourly for rest of day
-                    const now = new Date();
-                    const currentHour = now.getHours();
-                    const times = data.hourly.time;
-                    const temps = data.hourly.temperature_2m;
-                    const codes = data.hourly.weathercode;
-                    const precips = data.hourly.precipitation_probability;
-
-                    let hourlyHTML = '';
-                    for (let i = 0; i < times.length; i++) {
-                        const t = new Date(times[i]);
-                        if (t.getHours() < currentHour) continue;
-                        const hInfo = weatherInfo(codes[i], t.getHours() >= 6 && t.getHours() < 20 ? 1 : 0);
-                        const label = t.getHours() === currentHour ? 'Now'
-                            : t.toLocaleTimeString([], { hour: 'numeric', hour12: true });
-                        const precip = precips[i] > 0 ? `<div class="hour-precip">${precips[i]}%</div>` : '';
-                        hourlyHTML += `
-                            <div class="hour-card">
-                                <div class="hour-time">${label}</div>
-                                <div class="hour-icon">${hInfo.icon}</div>
-                                <div class="hour-temp">${Math.round(temps[i])}°</div>
-                                ${precip}
-                            </div>`;
-                    }
-
-                    document.getElementById('weather-content').innerHTML = `
-                        <div id="weather-current">
-                            <div id="weather-icon">${info.icon}</div>
-                            <div>
-                                <div id="weather-temp">${temp}°F</div>
-                                <div id="weather-desc">${info.desc} · Wind ${wind} mph</div>
-                                <div id="weather-location">${lat.toFixed(2)}°N, ${Math.abs(lon).toFixed(2)}°W</div>
-                            </div>
+                let hourlyHTML = '';
+                for (let i = 0; i < times.length; i++) {
+                    const t = new Date(times[i]);
+                    if (t.getHours() < currentHour) continue;
+                    const hInfo = weatherInfo(codes[i], t.getHours() >= 6 && t.getHours() < 20 ? 1 : 0);
+                    const label = t.getHours() === currentHour ? 'Now'
+                        : t.toLocaleTimeString([], { hour: 'numeric', hour12: true });
+                    const precip = precips[i] > 0 ? `<div class="hour-precip">${precips[i]}%</div>` : '';
+                    hourlyHTML += `<div class="hour-card">
+                        <div class="hour-time">${label}</div>
+                        <div class="hour-icon">${hInfo.icon}</div>
+                        <div class="hour-temp">${Math.round(temps[i])}°</div>
+                        ${precip}
+                    </div>`;
+                }
+                document.getElementById('weather-content').innerHTML = `
+                    <div id="weather-current">
+                        <div id="weather-icon">${info.icon}</div>
+                        <div>
+                            <div id="weather-temp">${temp}°F</div>
+                            <div id="weather-desc">${info.desc} · Wind ${wind} mph</div>
+                            <div id="weather-location">${lat.toFixed(2)}°N, ${Math.abs(lon).toFixed(2)}°W</div>
                         </div>
-                        <div id="hourly-label">Hourly forecast</div>
-                        <div id="hourly-scroll">${hourlyHTML}</div>
-                    `;
-
-                    // Scroll to current hour
-                    const scroll = document.getElementById('hourly-scroll');
-                    if (scroll && scroll.firstElementChild) {
-                        scroll.firstElementChild.scrollIntoView({ inline: 'start', behavior: 'instant' });
-                    }
-                })
-                .catch(() => {
-                    document.getElementById('weather-content').innerHTML =
-                        '<p id="weather-error">Could not load weather data.</p>';
-                });
+                    </div>
+                    <div id="hourly-label">Hourly forecast</div>
+                    <div id="hourly-scroll">${hourlyHTML}</div>`;
+            }).catch(() => {
+                document.getElementById('weather-content').innerHTML =
+                    '<p id="weather-error">Could not load weather data.</p>';
+            });
         }
 
-        // ── GEOLOCATION ──
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 pos => loadWeather(pos.coords.latitude, pos.coords.longitude),
-                () => {
-                    document.getElementById('weather-content').innerHTML =
-                        '<p id="weather-error">Enable location access to see weather.</p>';
-                }
+                () => { document.getElementById('weather-content').innerHTML =
+                    '<p id="weather-error">Enable location access to see weather.</p>'; }
             );
         } else {
             document.getElementById('weather-content').innerHTML =
-                '<p id="weather-error">Geolocation not supported by this browser.</p>';
+                '<p id="weather-error">Geolocation not supported.</p>';
         }
+
+        // ── COUNTDOWN HELPERS ──
+        function pad(n) { return String(n).padStart(2, '0'); }
+
+        function renderTimer(elId, targetDate) {
+            const el = document.getElementById(elId);
+            if (!el) return;
+
+            function tick() {
+                const diff = targetDate - Date.now();
+                if (diff <= 0) {
+                    el.innerHTML = '<span class="cd-live">LIVE NOW</span>';
+                    return;
+                }
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                el.innerHTML = `
+                    <div class="cd-unit"><div class="cd-num">${pad(d)}</div><div class="cd-lbl">Days</div></div>
+                    <div class="cd-unit"><div class="cd-num">${pad(h)}</div><div class="cd-lbl">Hrs</div></div>
+                    <div class="cd-unit"><div class="cd-num">${pad(m)}</div><div class="cd-lbl">Min</div></div>
+                    <div class="cd-unit"><div class="cd-num">${pad(s)}</div><div class="cd-lbl">Sec</div></div>`;
+            }
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        // ── F1 NEXT RACE ──
+        fetch('https://api.jolpi.ca/ergast/f1/current/next.json')
+            .then(r => r.json())
+            .then(data => {
+                const race = data.MRData.RaceTable.Races[0];
+                if (!race) return;
+                document.getElementById('f1-event').textContent = race.raceName;
+                document.getElementById('f1-competition').textContent = 'FIA Formula One World Championship';
+                const timeStr = race.time ? race.time.replace('Z', '') : '00:00:00';
+                const raceDate = new Date(`${race.date}T${timeStr}Z`);
+                const localDate = raceDate.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+                const localTime = raceDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                document.getElementById('f1-sub').textContent =
+                    `${race.Circuit.circuitName} · ${localDate} at ${localTime}`;
+                renderTimer('f1-timer', raceDate);
+            })
+            .catch(() => {
+                document.getElementById('f1-event').textContent = 'Could not load race data';
+            });
+
+        // ── LIVERPOOL NEXT MATCH ──
+        // Liverpool FC team ID on TheSportsDB: 133602
+        fetch('https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=133602')
+            .then(r => r.json())
+            .then(data => {
+                const event = data.events && data.events[0];
+                if (!event) return;
+                const home = event.strHomeTeam;
+                const away = event.strAwayTeam;
+                document.getElementById('lfc-event').textContent = `${home} vs ${away}`;
+                document.getElementById('lfc-competition').textContent = event.strLeague;
+                // dateEvent is YYYY-MM-DD, strTime is HH:MM:SS UTC
+                const timeStr = event.strTime || '00:00:00';
+                const matchDate = new Date(`${event.dateEvent}T${timeStr}Z`);
+                const localDate = matchDate.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+                const localTime = matchDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                document.getElementById('lfc-sub').textContent =
+                    `${event.strVenue || event.strLeague} · ${localDate} at ${localTime}`;
+                renderTimer('lfc-timer', matchDate);
+            })
+            .catch(() => {
+                document.getElementById('lfc-event').textContent = 'Could not load match data';
+            });
     </script>
 </body>
 </html>
