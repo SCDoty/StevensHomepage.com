@@ -117,7 +117,6 @@
             overflow: hidden;
         }
         .countdown-card.f1 { border-color: rgba(230,0,0,0.3); }
-        .countdown-card.lfc { border-color: rgba(200,16,46,0.35); }
         .countdown-card::before {
             content: '';
             position: absolute;
@@ -125,7 +124,6 @@
             height: 3px;
         }
         .countdown-card.f1::before { background: linear-gradient(90deg, #e60000, #ff6b6b); }
-        .countdown-card.lfc::before { background: linear-gradient(90deg, #c8102e, #f5a623); }
 
         .cd-top {
             display: flex;
@@ -249,18 +247,6 @@
             <div class="cd-timer" id="f1-timer"></div>
         </div>
 
-        <div class="countdown-card lfc" id="lfc-card">
-            <div class="cd-top">
-                <div class="cd-badge">⚽</div>
-                <div>
-                    <div class="cd-sport">Liverpool FC</div>
-                    <div class="cd-competition" id="lfc-competition">—</div>
-                </div>
-            </div>
-            <div class="cd-event" id="lfc-event"><span class="cd-loading">Loading...</span></div>
-            <div class="cd-sub" id="lfc-sub"></div>
-            <div class="cd-timer" id="lfc-timer"></div>
-        </div>
     </div>
 
     <div class="section-label">Quick Links</div>
@@ -437,29 +423,6 @@
                 document.getElementById('f1-event').textContent = 'Could not load race data';
             });
 
-        // ── LIVERPOOL NEXT MATCH ──
-        // Liverpool FC on ESPN: league eng.1 (Premier League), team ID 364
-        fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/364')
-            .then(r => r.json())
-            .then(data => {
-                const events = data.team && data.team.nextEvent;
-                const event = events && events[0];
-                if (!event) return;
-                document.getElementById('lfc-event').textContent = event.name;
-                document.getElementById('lfc-competition').textContent =
-                    (event.season && event.season.displayName) || 'Premier League';
-                const matchDate = new Date(event.date);
-                const localDate = matchDate.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
-                const localTime = matchDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-                const venue = event.competitions && event.competitions[0] && event.competitions[0].venue
-                    ? event.competitions[0].venue.fullName : '';
-                document.getElementById('lfc-sub').textContent =
-                    `${venue || 'Premier League'} · ${localDate} at ${localTime}`;
-                renderTimer('lfc-timer', matchDate);
-            })
-            .catch(() => {
-                document.getElementById('lfc-event').textContent = 'Could not load match data';
-            });
     </script>
 </body>
 </html>
