@@ -290,6 +290,54 @@
         <input id="search-input" type="text" name="q" placeholder="Search Google..." autocomplete="off">
     </form>
 
+    <div class="section-label">Quick Links</div>
+    <div id="card-grid">
+        <a class="site-card" href="https://www.claude.ai/" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="">
+            <span>Claude AI</span>
+        </a>
+        <a class="site-card" href="https://www.crunchyroll.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=64" alt="">
+            <span>Crunchyroll</span>
+        </a>
+        <a class="site-card" href="#" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=eitm.org&sz=64" alt="">
+            <span>EITM Archive</span>
+        </a>
+        <a class="site-card" href="https://f1tv.formula1.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=f1tv.formula1.com&sz=64" alt="">
+            <span>F1 TV</span>
+        </a>
+        <a class="site-card" href="https://www.fubo.tv" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=fubo.tv&sz=64" alt="">
+            <span>FuboTV</span>
+        </a>
+        <a class="site-card" href="https://www.netflix.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="">
+            <span>Netflix</span>
+        </a>
+        <a class="site-card" href="https://www.onefootball.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=onefootball.com&sz=64" alt="">
+            <span>OneFootball</span>
+        </a>
+        <a class="site-card" href="https://www.paramountplus.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=paramountplus.com&sz=64" alt="">
+            <span>Paramount+</span>
+        </a>
+        <a class="site-card" href="https://www.peacocktv.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=peacocktv.com&sz=64" alt="">
+            <span>Peacock</span>
+        </a>
+        <a class="site-card" href="https://www.reddit.com" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=reddit.com&sz=64" alt="">
+            <span>Reddit</span>
+        </a>
+        <a class="site-card" href="https://www.twitch.tv" target="_blank">
+            <img src="https://www.google.com/s2/favicons?domain=twitch.tv&sz=64" alt="">
+            <span>Twitch</span>
+        </a>
+    </div>
+
     <div id="weather-widget">
         <p id="weather-error">Fetching weather...</p>
     </div>
@@ -328,50 +376,6 @@
             <div class="cd-sub" id="lfc-sub"></div>
             <div class="cd-timer" id="lfc-timer"></div>
         </div>
-    </div>
-
-    <div class="section-label">Quick Links</div>
-    <div id="card-grid">
-        <a class="site-card" href="https://www.claude.ai/" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="">
-            <span>Claude AI</span>
-        </a>
-        <a class="site-card" href="https://www.peacocktv.com" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=peacocktv.com&sz=64" alt="">
-            <span>Peacock</span>
-        </a>
-        <a class="site-card" href="https://www.fubo.tv" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=fubo.tv&sz=64" alt="">
-            <span>FuboTV</span>
-        </a>
-        <a class="site-card" href="https://www.reddit.com" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=reddit.com&sz=64" alt="">
-            <span>Reddit</span>
-        </a>
-        <a class="site-card" href="https://www.onefootball.com" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=onefootball.com&sz=64" alt="">
-            <span>OneFootball</span>
-        </a>
-        <a class="site-card" href="https://www.paramountplus.com" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=paramountplus.com&sz=64" alt="">
-            <span>Paramount+</span>
-        </a>
-        <a class="site-card" href="https://www.crunchyroll.com" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=64" alt="">
-            <span>Crunchyroll</span>
-        </a>
-        <a class="site-card" href="https://www.netflix.com" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64" alt="">
-            <span>Netflix</span>
-        </a>
-        <a class="site-card" href="https://f1tv.formula1.com" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=f1tv.formula1.com&sz=64" alt="">
-            <span>F1 TV</span>
-        </a>
-        <a class="site-card" href="https://www.twitch.tv" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=twitch.tv&sz=64" alt="">
-            <span>Twitch</span>
-        </a>
     </div>
 
     <script>
@@ -472,9 +476,12 @@
                 if (!alerts.length) return;
                 const el = document.getElementById('metro-alert');
                 const list = document.getElementById('metro-alert-list');
-                list.innerHTML = alerts.map(a =>
-                    `<li>${a.Description}</li>`
-                ).join('');
+                list.innerHTML = '';
+                alerts.forEach(a => {
+                    const li = document.createElement('li');
+                    li.textContent = a.Description;
+                    list.appendChild(li);
+                });
                 el.style.display = 'block';
             })
             .catch(() => {});
