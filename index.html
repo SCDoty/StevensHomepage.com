@@ -442,9 +442,10 @@
         fetch('https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=133602')
             .then(r => r.json())
             .then(data => {
-                const event = data.events && data.events.find(e =>
-                    e.strHomeTeam.includes('Liverpool') || e.strAwayTeam.includes('Liverpool')
-                );
+                const event = data.events && data.events.find(e => {
+                    const teams = [e.strHomeTeam, e.strAwayTeam];
+                    return teams.some(t => t.includes('Liverpool') || t.includes('LFC'));
+                });
                 if (!event) return;
                 const home = event.strHomeTeam;
                 const away = event.strAwayTeam;
