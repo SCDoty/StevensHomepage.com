@@ -117,6 +117,7 @@
             overflow: hidden;
         }
         .countdown-card.f1 { border-color: rgba(230,0,0,0.3); }
+        .countdown-card.lfc { border-color: rgba(200,16,46,0.3); }
         .countdown-card::before {
             content: '';
             position: absolute;
@@ -124,6 +125,7 @@
             height: 3px;
         }
         .countdown-card.f1::before { background: linear-gradient(90deg, #e60000, #ff6b6b); }
+        .countdown-card.lfc::before { background: linear-gradient(90deg, #c8102e, #f5a623); }
 
         .cd-top {
             display: flex;
@@ -158,6 +160,7 @@
             font-variant-numeric: tabular-nums;
         }
         .countdown-card.f1 .cd-num { color: #ff6b6b; }
+        .countdown-card.lfc .cd-num { color: #f5a623; }
         .cd-lbl { font-size: 0.65rem; text-transform: uppercase; color: #5f6368; letter-spacing: 0.06em; margin-top: 3px; }
 
         .cd-live {
@@ -246,6 +249,18 @@
             <div class="cd-timer" id="f1-timer"></div>
         </div>
 
+        <div class="countdown-card lfc" id="lfc-card">
+            <div class="cd-top">
+                <div class="cd-badge">⚽</div>
+                <div>
+                    <div class="cd-sport">Liverpool FC</div>
+                    <div class="cd-competition" id="lfc-competition">—</div>
+                </div>
+            </div>
+            <div class="cd-event" id="lfc-event"><span class="cd-loading">Loading...</span></div>
+            <div class="cd-sub" id="lfc-sub"></div>
+            <div class="cd-timer" id="lfc-timer"></div>
+        </div>
     </div>
 
     <div class="section-label">Quick Links</div>
@@ -401,6 +416,66 @@
             tick();
             setInterval(tick, 1000);
         }
+
+        // ── LIVERPOOL NEXT GAME ──
+        (async function loadLFC() {
+            const TEAM_ID = '364';
+            const leagues = [
+                { slug: 'eng.1',          name: 'Premier League' },
+                { slug: 'uefa.champions', name: 'Champions League' },
+                { slug: 'eng.fa',         name: 'FA Cup' },
+                { slug: 'eng.league_cup', name: 'EFL Cup' }
+            ];
+            const now = Date.now();
+            let next = null;
+
+            for (const league of leagues) {
+                try {
+                    const r = await fetch(
+                        `https://site.api.espn.com/apis/site/v2/sports/soccer/${league.slug}/teams/${TEAM_ID}/schedule`
+                    );
+                    const data = await r.json();
+                    const events = data.events || [];
+                    for (const ev of events) {
+                        const comp = ev.competitions && ev.competitions[0];
+                        if (!comp) continue;
+                        const state = comp.status && comp.status.type && comp.status.type.state;
+                        if (state !== 'pre') continue;
+                        const gameDate = new Date(ev.date);
+                        if (gameDate <= now) continue;
+                        if (!next || gameDate < next.date) {
+                            const lfc = comp.competitors.find(c => c.id === TEAM_ID);
+                            const opp = comp.competitors.find(c => c.id !== TEAM_ID);
+                            const isHome = lfc && lfc.homeAway === 'home';
+                            next = {
+                                date: gameDate,
+                                league: league.name,
+                                oppName: opp && opp.team ? opp.team.displayName : 'TBD',
+                                oppLogo: opp && opp.team ? opp.team.logo : null,
+                                venue: comp.venue ? comp.venue.fullName : '',
+                                isHome
+                            };
+                        }
+                    }
+                } catch (e) { /* skip failed leagues */ }
+            }
+
+            if (!next) {
+                document.getElementById('lfc-event').textContent = 'No upcoming fixtures found';
+                return;
+            }
+
+            const matchup = next.isHome
+                ? `Liverpool vs ${next.oppName}`
+                : `${next.oppName} vs Liverpool`;
+            document.getElementById('lfc-event').textContent = matchup;
+            document.getElementById('lfc-competition').textContent = next.league;
+            const localDate = next.date.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+            const localTime = next.date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+            document.getElementById('lfc-sub').textContent =
+                `${next.venue ? next.venue + ' · ' : ''}${localDate} at ${localTime}`;
+            renderTimer('lfc-timer', next.date);
+        })();
 
         // ── F1 NEXT RACE ──
         fetch('https://api.jolpi.ca/ergast/f1/current/next.json')
