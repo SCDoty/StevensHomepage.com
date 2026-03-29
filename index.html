@@ -108,6 +108,14 @@
             gap: 16px;
             margin-bottom: 32px;
         }
+        @media (max-width: 600px) {
+            #countdowns { grid-template-columns: 1fr; }
+            body { padding: 18px 16px; }
+            .cd-event { font-size: 0.92rem; }
+            .cd-sub { font-size: 0.75rem; }
+            .cd-num { font-size: 1.5rem !important; }
+            .cd-unit { min-width: 36px !important; }
+        }
         .countdown-card {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
