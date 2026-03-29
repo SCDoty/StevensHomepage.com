@@ -57,50 +57,48 @@
         #weather-widget {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 20px 24px;
-            margin-bottom: 16px;
+            border-radius: 12px;
+            padding: 10px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0;
         }
         #weather-current {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
+            gap: 10px;
+            flex-shrink: 0;
+            padding-right: 16px;
+            border-right: 1px solid rgba(255,255,255,0.08);
+            margin-right: 16px;
         }
-        #weather-icon { font-size: 3rem; line-height: 1; }
-        #weather-temp { font-size: 2.8rem; font-weight: 700; }
-        #weather-desc { font-size: 1rem; color: #9aa0a6; margin-top: 2px; }
-        #weather-location { font-size: 0.85rem; color: #5f6368; margin-top: 2px; }
-        #hourly-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #5f6368;
-            margin-bottom: 10px;
-        }
+        #weather-icon { font-size: 1.5rem; line-height: 1; }
+        #weather-temp { font-size: 1.4rem; font-weight: 700; }
+        #weather-desc { font-size: 0.75rem; color: #9aa0a6; }
+        #weather-location { display: none; }
+        #hourly-label { display: none; }
         #hourly-scroll {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             overflow-x: auto;
-            padding-bottom: 4px;
+            padding-bottom: 2px;
+            flex: 1;
             scrollbar-width: thin;
             scrollbar-color: #3c4043 transparent;
         }
-        #hourly-scroll::-webkit-scrollbar { height: 4px; }
+        #hourly-scroll::-webkit-scrollbar { height: 3px; }
         #hourly-scroll::-webkit-scrollbar-thumb { background: #3c4043; border-radius: 2px; }
         .hour-card {
             flex: 0 0 auto;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 10px;
-            padding: 10px 14px;
             text-align: center;
-            min-width: 64px;
+            min-width: 46px;
+            padding: 2px 4px;
         }
-        .hour-time { font-size: 0.75rem; color: #9aa0a6; }
-        .hour-icon { font-size: 1.4rem; margin: 4px 0; }
-        .hour-temp { font-size: 0.95rem; font-weight: 600; }
-        .hour-precip { font-size: 0.7rem; color: #8ab4f8; margin-top: 2px; }
+        .hour-time { font-size: 0.65rem; color: #9aa0a6; }
+        .hour-icon { font-size: 1rem; margin: 2px 0; }
+        .hour-temp { font-size: 0.8rem; font-weight: 600; }
+        .hour-precip { font-size: 0.6rem; color: #8ab4f8; margin-top: 1px; }
         #weather-error { color: #9aa0a6; font-size: 0.9rem; }
 
         /* ── COUNTDOWNS ── */
@@ -234,7 +232,7 @@
     </form>
 
     <div id="weather-widget">
-        <div id="weather-content"><p id="weather-error">Fetching weather...</p></div>
+        <p id="weather-error">Fetching weather...</p>
     </div>
 
     <div id="countdowns">
@@ -366,19 +364,17 @@
                         ${precip}
                     </div>`;
                 }
-                document.getElementById('weather-content').innerHTML = `
+                document.getElementById('weather-widget').innerHTML = `
                     <div id="weather-current">
                         <div id="weather-icon">${info.icon}</div>
                         <div>
                             <div id="weather-temp">${temp}°F</div>
-                            <div id="weather-desc">${info.desc} · Wind ${wind} mph</div>
-                            <div id="weather-location">${lat.toFixed(2)}°N, ${Math.abs(lon).toFixed(2)}°W</div>
+                            <div id="weather-desc">${info.desc} · ${wind} mph</div>
                         </div>
                     </div>
-                    <div id="hourly-label">Hourly forecast</div>
                     <div id="hourly-scroll">${hourlyHTML}</div>`;
             }).catch(() => {
-                document.getElementById('weather-content').innerHTML =
+                document.getElementById('weather-widget').innerHTML =
                     '<p id="weather-error">Could not load weather data.</p>';
             });
         }
@@ -386,11 +382,11 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 pos => loadWeather(pos.coords.latitude, pos.coords.longitude),
-                () => { document.getElementById('weather-content').innerHTML =
+                () => { document.getElementById('weather-widget').innerHTML =
                     '<p id="weather-error">Enable location access to see weather.</p>'; }
             );
         } else {
-            document.getElementById('weather-content').innerHTML =
+            document.getElementById('weather-widget').innerHTML =
                 '<p id="weather-error">Geolocation not supported.</p>';
         }
 
