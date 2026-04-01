@@ -62,7 +62,10 @@ function loadWeather(lat, lon) {
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
         pos => loadWeather(pos.coords.latitude, pos.coords.longitude),
-        () => loadWeather(39.09,76.43)
+        () => {
+            document.getElementById('weather-widget').innerHTML =
+                '<p id="weather-error">Enable location access to see weather.</p>';
+        }
     );
 } else {
     document.getElementById('weather-widget').innerHTML =
