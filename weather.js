@@ -62,12 +62,8 @@ function loadWeather(lat, lon) {
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
         pos => loadWeather(pos.coords.latitude, pos.coords.longitude),
-        () => {
-            document.getElementById('weather-widget').innerHTML =
-                '<p id="weather-error">Enable location access to see weather.</p>';
-        }
+        () => loadWeather(39.1993, -76.7244) // fallback: Hanover, MD
     );
 } else {
-    document.getElementById('weather-widget').innerHTML =
-        '<p id="weather-error">Geolocation not supported.</p>';
+    loadWeather(39.1993, -76.7244); // fallback: Hanover, MD
 }
