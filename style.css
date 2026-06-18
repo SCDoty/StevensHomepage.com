@@ -435,29 +435,6 @@ body {
 .otd-link { color: #c4c7cc; text-decoration: none; }
 .otd-link:hover { text-decoration: underline; }
 
-/* ── SOUNDBOARD ── */
-.countdown-card.soundboard-card { border-color: rgba(156,39,176,0.35); margin-bottom: 16px; }
-.countdown-card.soundboard-card::before { background: linear-gradient(90deg, #9c27b0, #ce93d8); }
-#soundboard-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.sound-btn {
-    flex: 1;
-    min-width: 120px;
-    padding: 10px 14px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px;
-    color: #e8eaed;
-    font-size: 0.88rem;
-    cursor: pointer;
-    transition: background 0.12s, transform 0.08s;
-}
-.sound-btn:hover { background: rgba(255,255,255,0.11); }
-.sound-btn:active { transform: scale(0.94); }
-
 /* ── QUOTE ── */
 #quote-text {
     font-size: 0.95rem;
