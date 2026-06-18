@@ -134,5 +134,16 @@
     <script src="weather.js"></script>
     <script src="metro.js"></script>
     <script src="countdowns.js"></script>
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            const query = document.getElementById('search-input').value.trim();
+            const urlPattern = /^(https?:\/\/)?([a-z0-9-]+\.)+([a-z]{2,})(\/\S*)?$/i;
+            if (urlPattern.test(query)) {
+                e.preventDefault();
+                const url = /^https?:\/\//i.test(query) ? query : 'https://' + query;
+                window.open(url, '_blank');
+            }
+        });
+    </script>
 </body>
 </html>
