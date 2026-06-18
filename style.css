@@ -149,16 +149,18 @@ body {
     position: relative;
     overflow: hidden;
 }
-.countdown-card.f1 { border-color: rgba(230,0,0,0.3); }
+.countdown-card.f1  { border-color: rgba(230,0,0,0.3); }
 .countdown-card.lfc { border-color: rgba(200,16,46,0.3); }
+.countdown-card.wc  { border-color: rgba(200,164,0,0.35); }
 .countdown-card::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
 }
-.countdown-card.f1::before { background: linear-gradient(90deg, #e60000, #ff6b6b); }
+.countdown-card.f1::before  { background: linear-gradient(90deg, #e60000, #ff6b6b); }
 .countdown-card.lfc::before { background: linear-gradient(90deg, #c8102e, #f5a623); }
+.countdown-card.wc::before  { background: linear-gradient(90deg, #c8a400, #ffd700); }
 
 .cd-top {
     display: flex;
@@ -302,6 +304,58 @@ body {
     background: #303134;
 }
 .site-card span { font-size: 0.85rem; font-weight: 500; color: #c4c7cc; }
+
+/* ── WORLD CUP ── */
+#worldcup-widget { margin-bottom: 16px; }
+#wc-matches { display: flex; flex-direction: column; gap: 0; }
+.wc-match {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto;
+    align-items: center;
+    gap: 6px 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.wc-match:last-child { border-bottom: none; padding-bottom: 0; }
+.wc-team {
+    font-size: 0.85rem;
+    color: #c4c7cc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.wc-home { text-align: right; }
+.wc-away { text-align: left; }
+.wc-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 72px;
+}
+.wc-num {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffd700;
+    font-variant-numeric: tabular-nums;
+    min-width: 14px;
+    text-align: center;
+}
+.wc-dash { color: #5f6368; }
+.wc-time { font-size: 0.82rem; color: #9aa0a6; }
+.wc-badge-col { min-width: 38px; text-align: right; }
+.wc-live {
+    display: inline-block;
+    background: #c8102e;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 2px 6px;
+    border-radius: 20px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+.wc-ft { font-size: 0.7rem; color: #5f6368; }
 
 /* ── WIDGET GRID (calendar + on this day) ── */
 #widget-grid {
