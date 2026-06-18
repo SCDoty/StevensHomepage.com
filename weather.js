@@ -47,15 +47,15 @@ function loadWeather(lat, lon) {
         }
 
         document.getElementById('weather-widget').innerHTML = `
-            <div id="weather-current">
+            <button id="radar-toggle" title="Toggle radar map">📡 Radar</button>
+            <a id="weather-current" href="https://weather.com/weather/today/l/${lat},${lon}" target="_blank" title="Open Weather.com">
                 <div id="weather-icon">${info.icon}</div>
                 <div>
                     <div id="weather-temp">${temp}°F</div>
                     <div id="weather-desc">${info.desc} · ${wind} mph</div>
                 </div>
-            </div>
-            <div id="hourly-scroll">${hourlyHTML}</div>
-            <button id="radar-toggle" title="Toggle radar map">📡 Radar</button>`;
+            </a>
+            <div id="hourly-scroll">${hourlyHTML}</div>`;
 
         document.getElementById('radar-toggle').addEventListener('click', function (e) {
             e.stopPropagation();
