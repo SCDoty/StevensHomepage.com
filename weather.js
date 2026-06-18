@@ -1,3 +1,5 @@
+let radarMap = null;
+
 function weatherInfo(code, isDay) {
     if (code === 0)  return { icon: isDay ? '☀️' : '🌙', desc: 'Clear' };
     if (code <= 2)   return { icon: '⛅', desc: 'Partly cloudy' };
@@ -52,11 +54,68 @@ function loadWeather(lat, lon) {
                     <div id="weather-desc">${info.desc} · ${wind} mph</div>
                 </div>
             </div>
-            <div id="hourly-scroll">${hourlyHTML}</div>`;
+            <div id="hourly-scroll">${hourlyHTML}</div>
+            <button id="radar-toggle" title="Toggle radar map">▾</button>`;
+
+        document.getElementById('radar-toggle').addEventListener('click', function (e) {
+            e.stopPropagation();
+            const panel = document.getElementById('radar-panel');
+            const isOpen = panel.classList.toggle('open');
+            document.getElementById('weather-widget').classList.toggle('radar-open', isOpen);
+            this.textContent = isOpen ? '▴' : '▾';
+            if (isOpen && !radarMap) {
+                initRadarMap(lat, lon);
+            } else if (isOpen && radarMap) {
+                setTimeout(() => radarMap.invalidateSize(), 350);
+            }
+        });
+
     }).catch(() => {
         document.getElementById('weather-widget').innerHTML =
             '<p id="weather-error">Could not load weather data.</p>';
     });
+}
+
+function initRadarMap(lat, lon) {
+    loadLeaflet(() => {
+        radarMap = L.map('radar-map', { zoomControl: true })
+                   .setView([lat, lon], 7);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 12
+        }).addTo(radarMap);
+
+        fetch('https://api.rainviewer.com/public/weather-maps.json')
+            .then(r => r.json())
+            .then(data => {
+                const latest = data.radar.past[data.radar.past.length - 1];
+                L.tileLayer(
+                    `https://tilecache.rainviewer.com${latest.path}/256/{z}/{x}/{y}/2/1_1.png`,
+                    {
+                        tileSize: 256,
+                        opacity: 0.6,
+                        attribution: '<a href="https://www.rainviewer.com">Rain Viewer</a>'
+                    }
+                ).addTo(radarMap);
+            })
+            .catch(() => {});
+
+        setTimeout(() => radarMap.invalidateSize(), 350);
+    });
+}
+
+function loadLeaflet(cb) {
+    if (window.L) { cb(); return; }
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(link);
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = cb;
+    document.head.appendChild(script);
 }
 
 if (navigator.geolocation) {

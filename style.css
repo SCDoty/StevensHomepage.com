@@ -94,6 +94,37 @@ body {
 .hour-temp { font-size: 0.8rem; font-weight: 600; }
 .hour-precip { font-size: 0.6rem; color: #8ab4f8; margin-top: 1px; }
 #weather-error { color: #9aa0a6; font-size: 0.9rem; }
+#weather-widget.radar-open {
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 0;
+}
+#radar-toggle {
+    flex-shrink: 0;
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #9aa0a6;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 6px;
+    line-height: 1;
+    transition: color 0.15s;
+}
+#radar-toggle:hover { color: #e8eaed; }
+#radar-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+}
+#radar-panel.open {
+    max-height: 380px;
+    margin-bottom: 12px;
+}
+#radar-map { height: 360px; }
 
 /* ── COUNTDOWNS ── */
 #countdowns {
@@ -271,3 +302,101 @@ body {
     background: #303134;
 }
 .site-card span { font-size: 0.85rem; font-weight: 500; color: #c4c7cc; }
+
+/* ── QUOTE OF THE DAY ── */
+#quote-widget {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+#quote-text {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #e8eaed;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+#quote-author {
+    font-size: 0.8rem;
+    color: #9aa0a6;
+}
+
+/* ── DAILY GRID ── */
+#daily-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+@media (max-width: 700px) {
+    #daily-grid { grid-template-columns: 1fr; }
+}
+
+/* ── CALENDAR ── */
+#calendar-widget {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px 20px;
+}
+#calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 34px);
+    gap: 2px;
+    text-align: center;
+}
+.cal-header {
+    font-size: 0.65rem;
+    color: #5f6368;
+    text-transform: uppercase;
+    padding: 4px 0 8px;
+    text-align: center;
+}
+.cal-day {
+    font-size: 0.82rem;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #c4c7cc;
+}
+.cal-today {
+    background: #8ab4f8;
+    color: #131416;
+    font-weight: 700;
+}
+
+/* ── ON THIS DAY ── */
+#otd-widget {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px 22px;
+}
+#otd-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+#otd-list li {
+    font-size: 0.83rem;
+    color: #c4c7cc;
+    line-height: 1.45;
+}
+.otd-year {
+    font-weight: 700;
+    color: #8ab4f8;
+    margin-right: 6px;
+    font-variant-numeric: tabular-nums;
+}
+.otd-link {
+    color: #c4c7cc;
+    text-decoration: none;
+}
+.otd-link:hover { text-decoration: underline; }
