@@ -55,28 +55,29 @@
             const isFinal = sName === 'STATUS_FINAL';
             if (isLive) hasLive = true;
 
-            let scoreHTML, badgeHTML = '';
+            let col1HTML, midHTML;
             if (isFinal || isLive) {
-                scoreHTML = '<span class="wc-num">' + home.score + '</span>'
-                          + '<span class="wc-dash">–</span>'
-                          + '<span class="wc-num">' + away.score + '</span>';
-                badgeHTML = isLive
+                col1HTML = isLive
                     ? '<span class="wc-live">' + sDetail + '</span>'
                     : '<span class="wc-ft">FT</span>';
+                midHTML = '<span class="wc-num">' + home.score + '</span>'
+                        + '<span class="wc-dash">–</span>'
+                        + '<span class="wc-num">' + away.score + '</span>';
             } else {
                 const t = new Date(ev.date);
-                scoreHTML = '<span class="wc-time">'
+                col1HTML = '<span class="wc-time">'
                     + t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
                     + '</span>';
+                midHTML = '<span class="wc-vs">vs</span>';
             }
 
             const row = document.createElement('div');
             row.className = 'wc-match';
             row.innerHTML =
-                '<span class="wc-team wc-home">' + flag(home.team.abbreviation) + shortName(home.team) + '</span>'
-                + '<span class="wc-score">' + scoreHTML + '</span>'
-                + '<span class="wc-team wc-away">' + flag(away.team.abbreviation) + shortName(away.team) + '</span>'
-                + '<span class="wc-badge-col">' + badgeHTML + '</span>';
+                '<span class="wc-col1">' + col1HTML + '</span>'
+                + '<span class="wc-team wc-home">' + flag(home.team.abbreviation) + shortName(home.team) + '</span>'
+                + '<span class="wc-mid">' + midHTML + '</span>'
+                + '<span class="wc-team wc-away">' + flag(away.team.abbreviation) + shortName(away.team) + '</span>';
             container.appendChild(row);
         });
 
