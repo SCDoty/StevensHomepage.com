@@ -306,7 +306,7 @@ body {
 .site-card span { font-size: 0.85rem; font-weight: 500; color: #c4c7cc; }
 
 /* ── WORLD CUP ── */
-#worldcup-widget { margin-bottom: 16px; }
+#worldcup-widget { grid-column: 1 / -1; }
 #wc-matches { display: flex; flex-direction: column; gap: 0; }
 .wc-match {
     display: grid;
