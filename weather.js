@@ -48,22 +48,25 @@ function loadWeather(lat, lon) {
 
         document.getElementById('weather-widget').innerHTML = `
             <button id="radar-toggle" title="Toggle radar map">📡 Radar</button>
-            <a id="weather-current" href="https://weather.com/weather/today/l/${lat},${lon}" target="_blank" title="Open Weather.com">
+            <div id="weather-current" title="Open Weather.com">
                 <div id="weather-icon">${info.icon}</div>
                 <div>
                     <div id="weather-temp">${temp}°F</div>
                     <div id="weather-desc">${info.desc} · ${wind} mph</div>
                 </div>
-            </a>
+            </div>
             <div id="hourly-scroll">${hourlyHTML}</div>`;
+
+        document.getElementById('weather-current').addEventListener('click', function () {
+            window.open('https://weather.com/weather/today/l/' + lat + ',' + lon, '_blank');
+        });
 
         document.getElementById('radar-toggle').addEventListener('click', function (e) {
             e.stopPropagation();
             const panel = document.getElementById('radar-panel');
             const isOpen = panel.classList.toggle('open');
             document.getElementById('weather-widget').classList.toggle('radar-open', isOpen);
-            this.style.background = isOpen ? 'rgba(79,195,247,0.2)' : '';
-            this.style.borderColor = isOpen ? 'rgba(79,195,247,0.5)' : '';
+            this.style.background = isOpen ? 'rgba(79,195,247,0.18)' : '';
             if (isOpen && !radarMap) {
                 initRadarMap(lat, lon);
             } else if (isOpen && radarMap) {
@@ -101,7 +104,17 @@ function initRadarMap(lat, lon) {
                     }
                 ).addTo(radarMap);
             })
-            .catch(() => {});
+            .catch(() => {})
+            .finally(() => {
+                L.circleMarker([lat, lon], {
+                    radius: 8,
+                    fillColor: '#8ab4f8',
+                    fillOpacity: 1,
+                    color: '#131416',
+                    weight: 2.5,
+                    pane: 'markerPane'
+                }).addTo(radarMap);
+            });
 
         setTimeout(() => radarMap.invalidateSize(), 350);
     });

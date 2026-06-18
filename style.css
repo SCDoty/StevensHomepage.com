@@ -63,16 +63,14 @@ body {
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
-    padding-right: 16px;
+    padding: 4px 16px 4px 6px;
     border-right: 1px solid rgba(255,255,255,0.08);
     margin-right: 16px;
-    text-decoration: none;
-    color: inherit;
     cursor: pointer;
-    border-radius: 6px;
-    transition: opacity 0.15s;
+    border-radius: 8px;
+    transition: background 0.15s;
 }
-#weather-current:hover { opacity: 0.75; }
+#weather-current:hover { background: rgba(255,255,255,0.07); }
 #weather-icon { font-size: 1.5rem; line-height: 1; }
 #weather-temp { font-size: 1.4rem; font-weight: 700; }
 #weather-desc { font-size: 0.75rem; color: #9aa0a6; }
@@ -436,6 +434,29 @@ body {
 }
 .otd-link { color: #c4c7cc; text-decoration: none; }
 .otd-link:hover { text-decoration: underline; }
+
+/* ── SOUNDBOARD ── */
+.countdown-card.soundboard-card { border-color: rgba(156,39,176,0.35); margin-bottom: 16px; }
+.countdown-card.soundboard-card::before { background: linear-gradient(90deg, #9c27b0, #ce93d8); }
+#soundboard-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.sound-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    color: #e8eaed;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background 0.12s, transform 0.08s;
+}
+.sound-btn:hover { background: rgba(255,255,255,0.11); }
+.sound-btn:active { transform: scale(0.94); }
 
 /* ── QUOTE ── */
 #quote-text {
