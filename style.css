@@ -122,7 +122,7 @@ body {
 }
 #radar-panel.open {
     max-height: 380px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 #radar-map { height: 360px; }
 
