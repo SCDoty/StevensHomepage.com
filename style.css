@@ -57,6 +57,15 @@ body {
     display: flex;
     align-items: center;
     gap: 0;
+    position: relative;
+    overflow: hidden;
+}
+#weather-widget::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #0288d1, #4fc3f7);
 }
 #weather-current {
     display: flex;
