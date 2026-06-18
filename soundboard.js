@@ -1,7 +1,7 @@
 (function () {
     const SOUNDS = {
         wilhelm: 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Wilhelm_Scream.ogg',
-        awooga:  'https://archive.org/download/goofy-ahh-car-horn-sound-effect/goofy-ahh-car-horn-sound-effect.mp3',
+        awooga:  'https://bigsoundbank.com/UPLOAD/ogg/0679.ogg',
         fart:    'https://upload.wikimedia.org/wikipedia/commons/c/cf/Fart.ogg'
     };
 
