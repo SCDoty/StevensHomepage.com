@@ -131,7 +131,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
 }
 @media (max-width: 600px) {
     #countdowns { grid-template-columns: 1fr; }
