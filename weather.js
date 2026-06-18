@@ -55,14 +55,15 @@ function loadWeather(lat, lon) {
                 </div>
             </div>
             <div id="hourly-scroll">${hourlyHTML}</div>
-            <button id="radar-toggle" title="Toggle radar map">▾</button>`;
+            <button id="radar-toggle" title="Toggle radar map">📡 Radar</button>`;
 
         document.getElementById('radar-toggle').addEventListener('click', function (e) {
             e.stopPropagation();
             const panel = document.getElementById('radar-panel');
             const isOpen = panel.classList.toggle('open');
             document.getElementById('weather-widget').classList.toggle('radar-open', isOpen);
-            this.textContent = isOpen ? '▴' : '▾';
+            this.style.background = isOpen ? 'rgba(79,195,247,0.2)' : '';
+            this.style.borderColor = isOpen ? 'rgba(79,195,247,0.5)' : '';
             if (isOpen && !radarMap) {
                 initRadarMap(lat, lon);
             } else if (isOpen && radarMap) {
