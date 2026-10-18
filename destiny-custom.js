@@ -270,7 +270,7 @@
                 <div class="items">${weapons.map(w => itemCard({
                     slot: w.sl, name: w.n, rarity: w.exotic ? 'exotic' : 'legendary', type: w.ty, icon: w.i,
                     champ: w.champ, how: w.ch ? 'built into its exotic perk' : `artifact mod for ${w.wt}s`,
-                    perks: w.exotic ? w.p : null, why: w.why, source: w.src
+                    perks: w.exotic ? w.p : null, why: w.why, source: w.src, origin: !w.exotic, weapon: true
                 })).join('')}</div>
 
                 ${wperks.length ? `<h3 class="panel-title">Legendary Perks to Look For</h3>

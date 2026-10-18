@@ -853,13 +853,30 @@
     }
 
     // In-game style item card: rarity-coloured header with icon, then body
-    function itemCard({ slot, name, rarity, type, icon, champ, how, perks, why, source, footer }) {
+    // Origin trait block for legendary weapons: one trait, several (reissues differ by copy), or none (older weapons)
+    function originHtml(name) {
+        const list = (window.D2_ORIGINS || {})[name];
+        if (!list) return '<div class="origin"><div class="origin-label">Origin Trait</div><div class="perk-text">None — this weapon predates origin traits.</div></div>';
+        return `<div class="origin">
+            <div class="origin-label">${list.length > 1 ? 'Origin Trait · depends on which copy you get' : 'Origin Trait'}</div>
+            ${list.map(o => `<div class="origin-perk">${img(o.i, 'origin-icon')}<div>
+                <div class="perk-name">${esc(o.n)}</div><div class="perk-text">${textHtml(o.d)}</div></div></div>`).join('')}
+        </div>`;
+    }
+
+    const AMMO_LABELS = { primary: 'Primary', special: 'Special', heavy: 'Heavy' };
+    const ammoHtml = name => {
+        const a = (window.D2_AMMO || {})[name];
+        return a ? `<span class="ammo ammo-${a}" title="${AMMO_LABELS[a]} ammo"><img src="https://www.bungie.net/img/destiny_content/ammo_types/${a}.png" alt="">${AMMO_LABELS[a]}</span>` : '';
+    };
+
+    function itemCard({ slot, name, rarity, type, icon, champ, how, perks, why, source, footer, origin, weapon }) {
         return `<article class="item ${rarity}">
             <header class="item-head">
                 ${icon ? img(icon, 'item-icon') : '<div class="item-icon set-icon"></div>'}
                 <div class="item-title">
                     <div class="item-name">${esc(name)}</div>
-                    <div class="item-type">${esc(type)}</div>
+                    <div class="item-type">${weapon ? ammoHtml(name) : ''}${esc(type)}</div>
                 </div>
                 <div class="item-slot">${esc(slot)}</div>
             </header>
@@ -867,6 +884,7 @@
                 ${champ ? `<div class="champ champ-${champ.toLowerCase()}"><span class="champ-dot"></span>${champ}<span class="champ-how">${esc(how)}</span></div>` : ''}
                 ${why ? `<div class="item-why">${esc(why)}</div>` : ''}
                 ${perks ? perks.map(([p, t]) => `<div class="perk"><div class="perk-name">${esc(p)}</div><div class="perk-text">${textHtml(t)}</div></div>`).join('') : ''}
+                ${origin ? originHtml(name) : ''}
                 ${footer || ''}
                 <div class="item-source">${esc(source)}</div>
             </div>
@@ -923,7 +941,7 @@
             return itemCard({
                 slot: w.slot, name: w.name, rarity: w.exotic ? 'exotic' : 'legendary',
                 type: w.type + (w.note ? ` · ${w.note}` : ''), icon: ITEM_ICONS[w.name],
-                champ, how, perks: w.exotic ? PERKS[w.name] : null, source: w.source
+                champ, how, perks: w.exotic ? PERKS[w.name] : null, source: w.source, origin: !w.exotic, weapon: true
             });
         }).join('');
 

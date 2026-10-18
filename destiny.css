@@ -530,3 +530,34 @@ main { padding: 0 40px 48px; max-width: 1500px; margin: 0 auto; }
 .tip-type { font-size: 0.72rem; opacity: 0.85; margin-top: 1px; }
 .tip-body { padding: 12px 14px; font-size: 0.82rem; line-height: 1.55; color: var(--muted); }
 @media (hover: none) { #opt-tip { display: none; } }
+
+/* origin traits on legendary weapons */
+.origin { margin-top: 4px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+.origin-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 6px;
+}
+.origin-perk { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; padding: 4px 0; }
+.origin-icon { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(206,174,51,0.6); }
+.item.legendary .origin .perk-name { color: #e2c97a; }
+
+/* ammo type badge in weapon headers */
+.ammo {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 8px;
+    padding: 1px 7px 1px 4px;
+    background: rgba(0,0,0,0.6);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    vertical-align: 1px;
+}
+.ammo img { width: 20px; height: 14px; object-fit: contain; }
+.ammo-special { color: #7af48b; }
+.ammo-heavy   { color: #c9a6ff; }
