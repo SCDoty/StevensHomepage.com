@@ -4,52 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destiny 2 Hub</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="destiny.css">
 </head>
 <body>
+    <div id="bg"></div>
 
-    <div id="d2-header">
-        <a id="d2-back" href="index.html">← Home</a>
-        <h1>Destiny 2 Hub</h1>
-    </div>
+    <nav id="topbar">
+        <a id="d2-back" href="index.html">‹ Home</a>
+        <div id="brand">Destiny 2 <span>// Build Hub</span></div>
+        <div id="class-tabs"></div>
+    </nav>
 
-    <div class="section-label">Class</div>
-    <div id="class-tabs" class="d2-tabs"></div>
+    <main>
+        <section id="hero">
+            <div id="subclass-tabs"></div>
+            <div id="hero-kicker"></div>
+            <h1 id="hero-title"></h1>
 
-    <div class="section-label">Subclass</div>
-    <div id="subclass-tabs" class="d2-tabs"></div>
+            <div id="hero-controls">
+                <div id="build-tabs"></div>
+                <div id="raid-tabs" title="Swap raid-only gear for gear you can farm elsewhere"></div>
+            </div>
+        </section>
 
-    <div class="section-label">Build</div>
-    <div id="build-tabs" class="d2-tabs"></div>
+        <section id="build-detail"></section>
 
-    <div id="build-detail"></div>
-
-    <div class="section-label">Resources</div>
-    <div id="card-grid">
-        <a class="site-card" href="https://www.light.gg" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=light.gg&sz=48" alt="">
-            <span>light.gg</span>
-        </a>
-        <a class="site-card" href="https://d2foundry.gg" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=d2foundry.gg&sz=48" alt="">
-            <span>D2 Foundry</span>
-        </a>
-        <a class="site-card" href="https://app.destinyitemmanager.com" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=destinyitemmanager.com&sz=48" alt="">
-            <span>DIM</span>
-        </a>
-        <a class="site-card" href="https://mobalytics.gg/destiny-2/builds" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=mobalytics.gg&sz=48" alt="">
-            <span>Mobalytics Builds</span>
-        </a>
-        <a class="site-card" href="https://www.bungie.net/7/en/News" target="_blank">
-            <img src="https://www.google.com/s2/favicons?domain=bungie.net&sz=48" alt="">
-            <span>Bungie News</span>
-        </a>
-    </div>
-
-    <p id="d2-note">Picks are long-standing staples, not a live meta feed. Balance changes each season, so check light.gg or D2 Foundry before farming anything.</p>
+        <footer id="resources">
+            <h3 class="panel-title">Resources</h3>
+            <div id="resource-links">
+                <a href="https://www.light.gg" target="_blank">light.gg</a>
+                <a href="https://d2foundry.gg" target="_blank">D2 Foundry</a>
+                <a href="https://app.destinyitemmanager.com" target="_blank">DIM</a>
+                <a href="https://mobalytics.gg/destiny-2/builds" target="_blank">Mobalytics Builds</a>
+                <a href="https://www.bungie.net/7/en/News" target="_blank">Bungie News</a>
+            </div>
+            <p id="d2-note">Icons, perk text and sources come from the Bungie API. Picks are long-standing staples rather than a live meta feed, and champion counters follow the current seasonal artifact.</p>
+        </footer>
+    </main>
 
     <script src="destiny.js"></script>
 </body>
