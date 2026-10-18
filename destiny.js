@@ -828,14 +828,15 @@
     };
     const STAT_ICONS = {"Health": "icons/717b8b218cc14325a54869bef21d2964.png", "Melee": "icons/fa534aca76d7f2d7e7b4ba4df4271b42.png", "Grenade": "icons/065cdaabef560e5808e821cefaeaa22c.png", "Super": "icons/585ae4ede9c3da96b34086fccccdc8cd.png", "Class": "icons/7eb845acb5b3a4a9b7e0b2f05f5c43f1.png", "Weapons": "icons/bc69675acdae9e6b9a68a02fb4d62e07.png"};
 
-    const state = { cls: 'hunter', sub: 'solar', build: 0, raid: true };
+    const state = { cls: 'hunter', sub: 'solar', build: 0, raid: true, mode: 'curated' };
 
     // restore from URL hash, e.g. #titan/strand/1 or #titan/strand/1/noraid
-    const [hCls, hSub, hBuild, hRaid] = location.hash.slice(1).split('/');
+    const [hCls, hSub, hBuild, ...hFlags] = location.hash.slice(1).split('/');
     if (DATA[hCls]) state.cls = hCls;
     if (DATA[state.cls].builds[hSub]) state.sub = hSub;
     if (DATA[state.cls].builds[state.sub][+hBuild]) state.build = +hBuild;
-    if (hRaid === 'noraid') state.raid = false;
+    if (hFlags.includes('noraid')) state.raid = false;
+    if (hFlags.includes('custom') && window.D2Custom) state.mode = 'custom';
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     // stat modifier lines like "+10 Melee ▲" get their own styling
@@ -873,7 +874,7 @@
     }
 
     function render() {
-        history.replaceState(null, '', `#${state.cls}/${state.sub}/${state.build}${state.raid ? '' : '/noraid'}`);
+        history.replaceState(null, '', `#${state.cls}/${state.sub}/${state.build}${state.raid ? '' : '/noraid'}${state.mode === 'custom' ? '/custom' : ''}`);
         const art = SUBCLASS_ART[state.cls][state.sub];
         document.body.className = 'el-' + state.sub;
         document.getElementById('bg').style.backgroundImage = `url("${BNET}${art.art}")`;
@@ -890,12 +891,27 @@
             button('build-tab', `<span class="build-num">${String(i + 1).padStart(2, '0')}</span>${esc(b.name)}`, i === state.build,
                 () => { state.build = i; render(); })));
 
+        const modeTabs = document.getElementById('mode-tabs');
+        if (window.D2Custom) modeTabs.replaceChildren(
+            button('seg', 'Curated builds', state.mode === 'curated', () => { state.mode = 'curated'; render(); }),
+            button('seg', 'Build your own', state.mode === 'custom', () => { state.mode = 'custom'; render(); }));
+        document.getElementById('build-tabs').hidden = state.mode === 'custom';
+
         document.getElementById('raid-tabs').replaceChildren(
             button('seg', 'Raid gear', state.raid, () => { state.raid = true; render(); }),
             button('seg', 'No raids', !state.raid, () => { state.raid = false; render(); }));
 
         document.getElementById('hero-kicker').textContent = `${DATA[state.cls].name} · ${ELEMENT_NAMES[state.sub]}`;
         document.getElementById('hero-title').textContent = art.name;
+
+        if (state.mode === 'custom') {
+            window.D2Custom.render(document.getElementById('build-detail'), {
+                state, rerender: render, W, S, PERKS, ARTIFACT, ARTIFACT_NAME, BNET, STAT_ICONS, EXOTIC_ARMOR_SOURCE,
+                itemCard, esc, textHtml, img, className: DATA[state.cls].name,
+                curated: () => { const cb = builds[state.build]; return { lo: LOADOUTS[state.cls][cb.name], aspects: cb.aspects, name: cb.name }; }
+            });
+            return;
+        }
 
         const b = builds[state.build];
         const lo = LOADOUTS[state.cls][b.name];
