@@ -101,12 +101,30 @@
         <div id="radar-map"></div>
     </div>
 
-    <div id="metro-alert">
-        <div id="metro-alert-header">
-            <span class="metro-badge">ORANGE LINE</span>
-            <span id="metro-alert-title">Service Alert</span>
+    <div id="commute-row">
+        <div id="metro-alert">
+            <div id="metro-alert-header">
+                <span class="metro-badge">ORANGE LINE</span>
+                <span id="metro-alert-title">Service Alert</span>
+            </div>
+            <ul id="metro-alert-list"></ul>
         </div>
-        <ul id="metro-alert-list"></ul>
+
+        <div id="bw-traffic">
+            <div id="bw-header">
+                <span class="bw-badge">MD 295</span>
+                <span id="bw-title">BW Parkway · I-95 to MD 100</span>
+                <a id="bw-link" href="https://chart.maryland.gov/" target="_blank" rel="noopener">CHART ↗</a>
+            </div>
+            <iframe id="bw-map" title="BW Parkway live traffic"
+                src="https://embed.waze.com/iframe?zoom=11&lat=39.075&lon=-76.815&ct=livemap"
+                loading="lazy" allowfullscreen></iframe>
+            <div id="bw-live">
+                <div id="bw-sensors"></div>
+                <ul id="bw-incidents"></ul>
+                <div id="bw-updated"></div>
+            </div>
+        </div>
     </div>
 
     <div id="countdowns">
@@ -174,6 +192,7 @@
     <script src="clock.js"></script>
     <script src="weather.js"></script>
     <script src="metro.js"></script>
+    <script src="bwparkway.js"></script>
     <script src="countdowns.js"></script>
 <script src="quote.js"></script>
     <script src="calendar.js"></script>
