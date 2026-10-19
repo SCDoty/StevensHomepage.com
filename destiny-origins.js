@@ -28,6 +28,13 @@ window.D2_ORIGINS = {
    "i": "icons/87b2e30a913f17f2eedaf153365547b6.png"
   }
  ],
+ "Briar's Contempt": [
+  {
+   "n": "Harmonic Resonance",
+   "d": "Equipping multiple weapons from this set grants this weapon increased reload speed and handling. It also deals increased damage versus targets wielding Light and Darkness.",
+   "i": "icons/0934a0b4317a3d9e450c0c9b6998040b.png"
+  }
+ ],
  "BxR-55 Battler": [
   {
    "n": "Hot Swap",
@@ -183,6 +190,13 @@ window.D2_ORIGINS = {
    "i": "icons/82a2dd97afec22865d0a1098c1de59ff.png"
   }
  ],
+ "Maahes HC4": [
+  {
+   "n": "Omolon Fluid Dynamics",
+   "d": "This weapon has increased reload speed and stability for the top half of the magazine.",
+   "i": "icons/e1d261e6c370349c7521ddda8fa70e78.png"
+  }
+ ],
  "Midnight Coup": [
   {
    "n": "Indomitability",
@@ -240,6 +254,13 @@ window.D2_ORIGINS = {
    "n": "Cursed Thrall",
    "d": "After defeating a target with a melee attack, final blows with this weapon cause targets to explode for a short duration.",
    "i": "icons/29a2c76672a101aff2aad79906b3fc01.png"
+  }
+ ],
+ "Phyllotactic Spiral": [
+  {
+   "n": "Nanotech Tracer Missiles",
+   "d": "Landing multiple hits turns your next shot into a homing micro-missile.",
+   "i": "icons/58bf23eacf7404b757bed7a42849ef90.png"
   }
  ],
  "Point of the Stag": [
@@ -426,6 +447,13 @@ window.D2_ORIGINS = {
    "i": "icons/82a2dd97afec22865d0a1098c1de59ff.png"
   }
  ],
+ "The Spiteful Fang": [
+  {
+   "n": "Forge's Kin",
+   "d": "Black Armory weapon final blows briefly grant ammo generation, reload speed, and damage against combatants when the weapon is redrawn. Buff potency and duration increases for each equipped Black Armory weapon.",
+   "i": "icons/87b2e30a913f17f2eedaf153365547b6.png"
+  }
+ ],
  "Ulterior Observation": [
   {
    "n": "Exhaustive Research",
@@ -490,6 +518,23 @@ window.D2_ORIGINS = {
    "i": "icons/29a2c76672a101aff2aad79906b3fc01.png"
   }
  ],
+ "Yesterday's Question": [
+  {
+   "n": "Alacrity",
+   "d": "Gain increased reload, stability, aim assist, and range when an ally is defeated. Bonus increases when multiple allies are dead at the same time or when you are running solo.",
+   "i": "icons/c38aff78c3d2f91d47afa3ddb90acab6.png"
+  },
+  {
+   "n": "One Quiet Moment",
+   "d": "Grants increased reload speed and handling when out of combat. Swords gain faster movement speed.",
+   "i": "icons/5dee055d9ec357e47521bcf18e8d9b0f.png"
+  },
+  {
+   "n": "Fleet Footed",
+   "d": "Dealing damage grants you a short window of increased movement speed and airborne effectiveness. Landing a final blow increases these effects.",
+   "i": "icons/d89f88c83b11459a6804958b98353387.png"
+  }
+ ],
  "Zaouli's Bane": [
   {
    "n": "Runneth Over",
@@ -503,4 +548,4 @@ window.D2_ORIGINS = {
   }
  ]
 };
-window.D2_AMMO = {"1000 Yard Stare": "special", "Ace of Spades": "primary", "Ager's Scepter": "special", "Alethonym": "primary", "Anarchy": "heavy", "Arbalest": "special", "Axial Lacuna": "special", "Bad Juju": "primary", "Barrow-Dyad": "primary", "Bastion": "special", "Black Talon": "heavy", "Blast Furnace": "primary", "Borealis": "special", "Breath of the Dragon": "primary", "Buried Bloodline": "special", "BxR-55 Battler": "primary", "Cantata-57": "primary", "Cataclysmic": "heavy", "Centrifuse": "primary", "Cerberus+1": "primary", "Choir of One": "special", "Cloudstrike": "special", "Coldheart": "special", "Collective Obligation": "primary", "Conditional Finality": "special", "Corrective Measure": "heavy", "Crimson": "primary", "Cruel Mercy": "primary", "Cryosthesia 77K": "primary", "Cull's Shadow": "special", "D.A.R.C.I.": "heavy", "Dead Man's Tale": "primary", "Dead Messenger": "special", "Deathbringer": "heavy", "Delicate Tomb": "special", "Deliverance": "special", "Deterministic Chaos": "heavy", "Devil's Ruin": "primary", "Divinity": "special", "Dragon's Breath": "heavy", "Duality": "special", "Edge of Action": "special", "Edge of Concurrence": "special", "Edge of Intent": "special", "Elsie's Rifle": "primary", "Ergo Sum": "special", "Eriana's Vow": "special", "Euphony": "special", "Ex Diris": "special", "Eyasluna": "primary", "Eyes of Tomorrow": "heavy", "Fafnir": "heavy", "Fatebringer": "primary", "Fighting Lion": "primary", "Final Warning": "primary", "Finality's Auger": "heavy", "Fixed Odds": "heavy", "Forerunner": "special", "Gjallarhorn": "heavy", "Grand Overture": "heavy", "Graviton Lance": "primary", "Graviton Spike": "primary", "Hammerhead": "heavy", "Hard Light": "primary", "Hawkmoon": "primary", "Heartshadow": "heavy", "Heir Apparent": "heavy", "Heirloom": "special", "Hierarchy of Needs": "primary", "IKELOS_HC_v1.0.2": "primary", "Ice Breaker": "special", "Iterative Loop": "special", "Izanagi's Burden": "special", "Jötunn": "special", "Khvostov 7G-0X": "primary", "Le Monarque": "primary", "Legend of Acrius": "heavy", "Leviathan's Breath": "heavy", "Lionfish-4fr": "special", "Loaded Question": "special", "Lodestar": "primary", "Lord of Wolves": "special", "Lorentz Driver": "special", "Lumina": "primary", "Luna's Howl": "primary", "MIDA Multi-Tool": "primary", "Malfeasance": "primary", "Merciless": "special", "Microcosm": "heavy", "Midnight Coup": "primary", "Mint Retrograde": "special", "Monte Carlo": "primary", "Nation of Beasts": "primary", "Necrochasm": "primary", "Neoptolemus II": "primary", "New Land Beyond": "special", "New Malpais": "special", "New Purpose": "primary", "No Survivors": "primary", "No Time to Explain": "primary", "One Thousand Voices": "heavy", "Osteo Striga": "primary", "Outbreak Perfected": "primary", "Oversoul Edict": "primary", "Parasite": "heavy", "Point of the Stag": "primary", "Polaris Lance": "primary", "Praxic Blade": "special", "Pre Astyanax IV": "primary", "Premonition": "primary", "Pressurized Precision": "special", "Pro Memoria": "heavy", "Prometheus Lens": "special", "Quicksilver Storm": "primary", "Qullim's Terminus": "heavy", "Rapacious Appetite": "primary", "Rat King": "primary", "Red Death Reformed": "primary", "Relentless": "primary", "Revision Zero": "primary", "Riptide": "special", "Riskrunner": "primary", "Round Robin": "primary", "Ruinous Effigy": "special", "SUROS Regime": "primary", "Salvation's Grip": "heavy", "Scintillation": "heavy", "Service of Luzaku": "heavy", "Skyburner's Oath": "primary", "Slayer's Fang": "special", "Sleeper Simulant": "heavy", "Still Hunt": "special", "Stormchaser": "heavy", "Sturm": "primary", "Subtle Calamity": "primary", "Sunshot": "primary", "Suspectum-4fr": "heavy", "Sweet Business": "primary", "Symmetry": "primary", "Taipan-4fr": "heavy", "Tarrabah": "primary", "Telesto": "special", "Terminus Horizon": "heavy", "Tessellation": "special", "The Chaperone": "special", "The Colony": "heavy", "The Epicurean": "special", "The Fourth Horseman": "special", "The Huckleberry": "primary", "The Jade Rabbit": "primary", "The Lament": "heavy", "The Last Word": "primary", "The Long Walk": "special", "The Manticore": "primary", "The Navigator": "special", "The Prospector": "heavy", "The Queenbreaker": "heavy", "The Recluse": "primary", "The Wardcliff Coil": "heavy", "Third Iteration": "primary", "Thorn": "primary", "Thunderlord": "heavy", "Ticuu's Divination": "primary", "Tommy's Matchbook": "primary", "Touch of Malice": "primary", "Tractor Cannon": "heavy", "Traveler's Chosen": "primary", "Trespasser": "primary", "Trinity Ghoul": "primary", "Truth": "heavy", "Turncoat": "primary", "Two-Tailed Fox": "heavy", "Ulterior Observation": "heavy", "Unforgiven": "primary", "Unloved": "primary", "VS Gravitic Arrest": "special", "Vengeful Whisper": "primary", "Verglas Curve": "primary", "Vex Mythoclast": "primary", "Vexcalibur": "special", "Vigilance Wing": "primary", "Warden's Law": "primary", "Wavesplitter": "special", "Whirling Ovation": "heavy", "Whisper of the Worm": "heavy", "Wicked Implement": "primary", "Winterbite": "heavy", "Wish-Ender": "primary", "Wish-Keeper": "primary", "Witherhoard": "special", "Wolfsbane": "heavy", "Word of Crota": "primary", "Worldline Zero": "heavy", "Xenophage": "heavy", "Zaouli's Bane": "primary"};
+window.D2_AMMO = {"1000 Yard Stare": "special", "Ace of Spades": "primary", "Ager's Scepter": "special", "Alethonym": "primary", "Anarchy": "heavy", "Arbalest": "special", "Axial Lacuna": "special", "Bad Juju": "primary", "Barrow-Dyad": "primary", "Bastion": "special", "Black Talon": "heavy", "Blast Furnace": "primary", "Borealis": "special", "Breath of the Dragon": "primary", "Briar's Contempt": "heavy", "Buried Bloodline": "special", "BxR-55 Battler": "primary", "Cantata-57": "primary", "Cataclysmic": "heavy", "Centrifuse": "primary", "Cerberus+1": "primary", "Choir of One": "special", "Cloudstrike": "special", "Coldheart": "special", "Collective Obligation": "primary", "Conditional Finality": "special", "Corrective Measure": "heavy", "Crimson": "primary", "Cruel Mercy": "primary", "Cryosthesia 77K": "primary", "Cull's Shadow": "special", "D.A.R.C.I.": "heavy", "Dead Man's Tale": "primary", "Dead Messenger": "special", "Deathbringer": "heavy", "Delicate Tomb": "special", "Deliverance": "special", "Deterministic Chaos": "heavy", "Devil's Ruin": "primary", "Divinity": "special", "Dragon's Breath": "heavy", "Duality": "special", "Edge of Action": "special", "Edge of Concurrence": "special", "Edge of Intent": "special", "Elsie's Rifle": "primary", "Ergo Sum": "special", "Eriana's Vow": "special", "Euphony": "special", "Ex Diris": "special", "Eyasluna": "primary", "Eyes of Tomorrow": "heavy", "Fafnir": "heavy", "Fatebringer": "primary", "Fighting Lion": "primary", "Final Warning": "primary", "Finality's Auger": "heavy", "Fixed Odds": "heavy", "Forerunner": "special", "Gjallarhorn": "heavy", "Grand Overture": "heavy", "Graviton Lance": "primary", "Graviton Spike": "primary", "Hammerhead": "heavy", "Hard Light": "primary", "Hawkmoon": "primary", "Heartshadow": "heavy", "Heir Apparent": "heavy", "Heirloom": "special", "Hierarchy of Needs": "primary", "IKELOS_HC_v1.0.2": "primary", "Ice Breaker": "special", "Iterative Loop": "special", "Izanagi's Burden": "special", "Jötunn": "special", "Khvostov 7G-0X": "primary", "Le Monarque": "primary", "Legend of Acrius": "heavy", "Leviathan's Breath": "heavy", "Lionfish-4fr": "special", "Loaded Question": "special", "Lodestar": "primary", "Lord of Wolves": "special", "Lorentz Driver": "special", "Lumina": "primary", "Luna's Howl": "primary", "MIDA Multi-Tool": "primary", "Maahes HC4": "primary", "Malfeasance": "primary", "Merciless": "special", "Microcosm": "heavy", "Midnight Coup": "primary", "Mint Retrograde": "special", "Monte Carlo": "primary", "Nation of Beasts": "primary", "Necrochasm": "primary", "Neoptolemus II": "primary", "New Land Beyond": "special", "New Malpais": "special", "New Purpose": "primary", "No Survivors": "primary", "No Time to Explain": "primary", "One Thousand Voices": "heavy", "Osteo Striga": "primary", "Outbreak Perfected": "primary", "Oversoul Edict": "primary", "Parasite": "heavy", "Phyllotactic Spiral": "primary", "Point of the Stag": "primary", "Polaris Lance": "primary", "Praxic Blade": "special", "Pre Astyanax IV": "primary", "Premonition": "primary", "Pressurized Precision": "special", "Pro Memoria": "heavy", "Prometheus Lens": "special", "Quicksilver Storm": "primary", "Qullim's Terminus": "heavy", "Rapacious Appetite": "primary", "Rat King": "primary", "Red Death Reformed": "primary", "Relentless": "primary", "Revision Zero": "primary", "Riptide": "special", "Riskrunner": "primary", "Round Robin": "primary", "Ruinous Effigy": "special", "SUROS Regime": "primary", "Salvation's Grip": "heavy", "Scintillation": "heavy", "Service of Luzaku": "heavy", "Skyburner's Oath": "primary", "Slayer's Fang": "special", "Sleeper Simulant": "heavy", "Still Hunt": "special", "Stormchaser": "heavy", "Sturm": "primary", "Subtle Calamity": "primary", "Sunshot": "primary", "Suspectum-4fr": "heavy", "Sweet Business": "primary", "Symmetry": "primary", "Taipan-4fr": "heavy", "Tarrabah": "primary", "Telesto": "special", "Terminus Horizon": "heavy", "Tessellation": "special", "The Chaperone": "special", "The Colony": "heavy", "The Epicurean": "special", "The Fourth Horseman": "special", "The Huckleberry": "primary", "The Jade Rabbit": "primary", "The Lament": "heavy", "The Last Word": "primary", "The Long Walk": "special", "The Manticore": "primary", "The Navigator": "special", "The Prospector": "heavy", "The Queenbreaker": "heavy", "The Recluse": "primary", "The Spiteful Fang": "primary", "The Wardcliff Coil": "heavy", "Third Iteration": "primary", "Thorn": "primary", "Thunderlord": "heavy", "Ticuu's Divination": "primary", "Tommy's Matchbook": "primary", "Touch of Malice": "primary", "Tractor Cannon": "heavy", "Traveler's Chosen": "primary", "Trespasser": "primary", "Trinity Ghoul": "primary", "Truth": "heavy", "Turncoat": "primary", "Two-Tailed Fox": "heavy", "Ulterior Observation": "heavy", "Unforgiven": "primary", "Unloved": "primary", "VS Gravitic Arrest": "special", "Vengeful Whisper": "primary", "Verglas Curve": "primary", "Vex Mythoclast": "primary", "Vexcalibur": "special", "Vigilance Wing": "primary", "Warden's Law": "primary", "Wavesplitter": "special", "Whirling Ovation": "heavy", "Whisper of the Worm": "heavy", "Wicked Implement": "primary", "Winterbite": "heavy", "Wish-Ender": "primary", "Wish-Keeper": "primary", "Witherhoard": "special", "Wolfsbane": "heavy", "Word of Crota": "primary", "Worldline Zero": "heavy", "Xenophage": "heavy", "Yesterday's Question": "primary", "Zaouli's Bane": "primary"};

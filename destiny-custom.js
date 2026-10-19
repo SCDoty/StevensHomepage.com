@@ -25,6 +25,12 @@
     });
     // Older names exotic perk text still uses for current abilities
     const ALIASES = { 'Proximity Explosive Knife': ['Proximity Knife'], 'Snare Bomb': ['Smoke Bomb'] };
+    // Legendary perks by name, for scoring what each legendary weapon can roll (LEG[].r)
+    const PERK = Object.fromEntries(D.WPERKS.map(p => [p.n, p]));
+    // rollable perks rank legendaries that share an element, slot and champion; the bonus levels off below 3
+    // so it never outweighs the +4 for matching your element
+    const LEG_PERK_MAX = 3;
+    const perkBonus = raw => LEG_PERK_MAX * raw / (raw + 4);
 
     let picked = null; // option name shown in the info box
     const storageKey = (cls, sub) => `d2custom:${cls}/${sub}`;
@@ -149,8 +155,13 @@
         const exotics = Object.entries(D.WEAP).map(([n, w]) => Object.assign({ n, exotic: true }, w))
             .filter(w => w.sl && champOf(w) && allowed(w))
             .map(w => Object.assign(w, { score: scoreTags(w.t, prof) * 0.8 + (elMatch(w) ? 4 : 0) + (w.el === 'kinetic' ? 1 : 0) + 1 }));
+        // a legendary rolls one perk per column, so it scores the best perk it can roll in each column for this build
+        const rollPicks = w => (w.r || []).map(col => col.map(n => ({ n, s: scoreTags((PERK[n] || {}).t, prof) }))
+            .sort((a, b) => b.s - a.s)[0]).filter(x => x && x.s > 0);
         const legends = D.LEG.filter(w => champOf(w) && allowed(w))
-            .map(w => Object.assign({}, w, { score: (elMatch(w) ? 4 : 0) + (w.el === 'kinetic' ? 1 : 0) + (w.raid ? 1 : 0) + 1 }));
+            .map(w => { const roll = rollPicks(w);
+                return Object.assign({}, w, { roll, score: perkBonus(roll.reduce((s, x) => s + x.s, 0))
+                    + (elMatch(w) ? 4 : 0) + (w.el === 'kinetic' ? 1 : 0) + (w.raid ? 1 : 0) + 1 }); });
         const isPrimary = w => (window.D2_AMMO || {})[w.n] === 'primary';
         const best = (list, slot, champ, primary) => list.filter(w => w.sl === slot && champOf(w) === champ && (!primary || isPrimary(w))).sort((a, b) => b.score - a.score)[0];
 
@@ -171,6 +182,7 @@
             if (elMatch(w)) why.push(w.flex === 'grenade' ? 'Its element follows your grenade.' : `${elName(w.el)} damage, so its kills count for your ${prof.elements.map(elName).join('/')} fragments and aspects.`);
             const m = topMatches(w.t, prof);
             if (w.exotic && m.length) why.push(`Its perks feed ${m.join(', ')}.`);
+            if (w.roll && w.roll.length) why.push(`Look for a roll with ${w.roll.map(x => x.n).join(' + ')}.`);
             return Object.assign({}, w, { champ: champOf(w), why: why.join(' ') });
         });
     }
