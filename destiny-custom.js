@@ -151,13 +151,15 @@
             .map(w => Object.assign(w, { score: scoreTags(w.t, prof) * 0.8 + (elMatch(w) ? 4 : 0) + (w.el === 'kinetic' ? 1 : 0) + 1 }));
         const legends = D.LEG.filter(w => champOf(w) && allowed(w))
             .map(w => Object.assign({}, w, { score: (elMatch(w) ? 4 : 0) + (w.el === 'kinetic' ? 1 : 0) + (w.raid ? 1 : 0) + 1 }));
-        const best = (list, slot, champ) => list.filter(w => w.sl === slot && champOf(w) === champ).sort((a, b) => b.score - a.score)[0];
+        const isPrimary = w => (window.D2_AMMO || {})[w.n] === 'primary';
+        const best = (list, slot, champ, primary) => list.filter(w => w.sl === slot && champOf(w) === champ && (!primary || isPrimary(w))).sort((a, b) => b.score - a.score)[0];
 
+        // every loadout needs a Primary ammo weapon, so one slot (pri) is restricted to Primary picks
         let top = null;
         const perms = [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]];
         for (const p of perms) {
-            for (let ex = 0; ex < 3; ex++) {
-                const pick = SLOTS.map((slot, i) => best(i === ex ? exotics : legends, slot, CHAMPS[p[i]]));
+            for (let ex = 0; ex < 3; ex++) for (let pri = 0; pri < 3; pri++) {
+                const pick = SLOTS.map((slot, i) => best(i === ex ? exotics : legends, slot, CHAMPS[p[i]], i === pri));
                 if (pick.some(w => !w)) continue;
                 const total = pick.reduce((s, w) => s + w.score, 0);
                 if (!top || total > top.total) top = { total, pick };

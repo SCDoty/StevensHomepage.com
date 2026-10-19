@@ -73,6 +73,7 @@
         outbreak:       { name: 'Outbreak Perfected', type: 'Kinetic Pulse Rifle', slot: 'Kinetic', el: 'kinetic', exotic: true, source: 'Exotic Archive at the Tower' },
         blastfurnace:   { name: 'Blast Furnace', type: 'Kinetic Pulse Rifle', slot: 'Kinetic', el: 'kinetic', source: 'Into the Light' },
         mintretro:      { name: 'Mint Retrograde', type: 'Strand Pulse Rifle', slot: 'Kinetic', el: 'strand', source: 'Pinnacle Ops' },
+        relentless:     { name: 'Relentless', type: 'Strand Pulse Rifle', slot: 'Kinetic', el: 'strand', source: 'Prophecy dungeon · Rite of the Nine' },
         euphony:        { name: 'Euphony', type: 'Strand Linear Fusion Rifle', slot: 'Kinetic', el: 'strand', exotic: true, source: "Salvation's Edge raid", raid: true, noRaid: 'bastion' },
         bastion:        { name: 'Bastion', type: 'Kinetic Fusion Rifle', slot: 'Kinetic', el: 'kinetic', exotic: true, champ: 'Unstoppable', source: 'Exotic Archive at the Tower' },
         deliverance:    { name: 'Deliverance', type: 'Stasis Fusion Rifle', slot: 'Kinetic', el: 'stasis', source: 'Vow of the Disciple raid', raid: true, noRaid: 'riptide' },
@@ -348,7 +349,7 @@
                     ['Threaded Specter', 'Whirling Maelstrom'],
                     { name: 'The Sixth Coyote', slot: 'Chest Armor', why: 'Two class ability charges means two decoys.' },
                     ['Class', 'Melee'],
-                    ['mintretro', 'tessellation', 'promemoria'])
+                    ['relentless', 'tessellation', 'promemoria'])
             ],
             prismatic: [
                 B('Exotic Class Item', 'Mix two exotic perks on the Relativism cloak. Build into Transcendence for grenade and melee spam.',
@@ -437,7 +438,7 @@
                     ['Banner of War', 'Flechette Storm'],
                     { name: 'Wishful Ignorance', slot: 'Gauntlets', why: 'Big Frenzied Blade melee damage buff.' },
                     ['Melee', 'Health'],
-                    ['mintretro', 'tessellation', 'promemoria'])
+                    ['relentless', 'tessellation', 'promemoria'])
             ],
             prismatic: [
                 B('Exotic Class Item', 'Two exotic perks on the Stoicism mark. Consecration plus Knockout for melee damage.',
@@ -521,7 +522,7 @@
                     ['The Wanderer', 'Weavewalk'],
                     { name: "Verity's Brow", slot: 'Helmet', why: 'Weapon kills that match your subclass increase grenade damage and regen.' },
                     ['Grenade', 'Health'],
-                    ['mintretro', 'tessellation', 'promemoria'])
+                    ['relentless', 'tessellation', 'promemoria'])
             ],
             prismatic: [
                 B('Exotic Class Item', 'Two exotic perks on the Solipsism bond. Feed the Void plus Bleak Watcher.',
