@@ -195,55 +195,69 @@
             .map(({ p }) => Object.assign({ why: topMatches(p.t, prof, 2).join(', ') }, p));
     }
 
-    // Artifact: the champion mods your weapons need, then the best perks for the build within the point budget.
-    // weapons: [{ wt: 'Hand Cannon', el: 'arc', mod: 'Anti-Barrier Hand Cannon' | null }]
-    function recommendArtifact(prof, weapons, grenade) {
+    // Artifact: score every artifact's perks against the build and keep the best one. You slot `slots` perks;
+    // column 2 and 3 perks only fit the last `late` slots, and at most `top` can come from column 3.
+    // weapons: [{ wt: 'Hand Cannon', el: 'arc' }]
+    function recommendArtifact(prof, weapons, grenade, sub) {
         const A = D.ARTI;
         if (!A) return null;
-        const mods = new Set(weapons.map(w => w.mod).filter(Boolean));
-        const fits = p => (!p.e || p.e.some(e => prof.elements.includes(e)))
+        const els = sub === 'prismatic' ? [...prof.elements, 'prismatic'] : prof.elements;
+        const fits = p => (!p.e || p.e.some(e => els.includes(e) || weapons.some(w => w.el === e)))
             && (!p.wt || weapons.some(w => p.wt.includes(w.wt)))
             && (!p.we || weapons.some(w => p.we.includes(w.el)))
             && (!p.g || p.g.includes(grenade));
         // a perk tied to your weapons or grenade is a sure fit, so it gets a bonus on top of its tags
         const score = p => fits(p) ? scoreTags(p.t, prof) + (p.wt || p.we || p.g ? 2 : 0) : 0;
-        // perks only taken to open a tier should at least work with this build
-        const tiers = A.tiers.map((t, ti) => t.p.map(p => ({ p, ti, need: ti === 0 && mods.has(p.n), s: ti === 0 ? 0 : score(p), ok: fits(p) && !p.wt }))
-            .sort((a, b) => b.need - a.need || b.s - a.s || b.ok - a.ok));
 
-        // try every number of perks per tier; a tier opens once enough perks are taken below it.
-        // Ties go to fewer perks, so zero-value perks are only taken to open a tier.
-        let best = null;
-        const counts = [];
-        (function walk(ti, used, total) {
-            if (ti === tiers.length) {
-                if (!best || total > best.total + 1e-9 || (total > best.total - 1e-9 && used < best.used)) best = { total, used, counts: [...counts] };
-                return;
-            }
-            for (let k = ti === 0 ? mods.size : 0; k <= tiers[ti].length && used + k <= A.pts; k++) {
-                if (k && used < A.tiers[ti].min) break;
-                counts[ti] = k;
-                walk(ti + 1, used + k, total + tiers[ti].slice(0, k).reduce((s, x) => s + x.s, 0));
-            }
-        })(0, 0, 0);
+        const ranked = A.list.map(a => {
+            const cols = a.cols.map((c, ci) => c.map(p => ({ p, col: ci + 1, s: score(p) })).filter(x => x.s > 0).sort((x, y) => y.s - x.s));
+            const sum = (list, k) => list.slice(0, k).reduce((s, x) => s + x.s, 0);
+            let best = { total: 0, k: [0, 0, 0] };
+            for (let k3 = 0; k3 <= Math.min(A.top, cols[2].length); k3++)
+                for (let k2 = 0; k2 <= Math.min(A.late - k3, cols[1].length); k2++) {
+                    const k1 = Math.min(A.slots - k2 - k3, cols[0].length);
+                    const total = sum(cols[0], k1) + sum(cols[1], k2) + sum(cols[2], k3);
+                    if (total > best.total) best = { total, k: [k1, k2, k3] };
+                }
+            const picks = cols.flatMap((c, ci) => c.slice(0, best.k[ci])).map(x => {
+                const m = topMatches(x.p.t, prof, 2);
+                const why = [x.p.wt || x.p.we || x.p.g ? 'Works with your loadout.' : '', m.length ? `Feeds ${m.join(', ')}.` : ''].filter(Boolean).join(' ');
+                return Object.assign({ col: x.col, why }, x.p);
+            });
+            return { a, total: best.total, picks };
+        }).sort((x, y) => y.total - x.total);
 
-        const picks = tiers.flatMap((list, ti) => list.slice(0, best.counts[ti])).map(x => {
-            const m = topMatches(x.p.t, prof, 2);
-            const why = x.need ? 'Stuns champions with your weapons.'
-                : x.s > 0 ? [x.p.wt || x.p.we || x.p.g ? 'Works with your loadout.' : '', m.length ? `Feeds ${m.join(', ')}.` : ''].filter(Boolean).join(' ')
-                : `Opens Tier ${best.counts.findIndex((k, i) => i > x.ti && k) + 1}.`;
-            return Object.assign({ tier: x.ti + 1, why }, x.p);
-        });
-        return { name: A.n, picks, left: A.pts - best.used, pts: A.pts };
+        const top = ranked[0];
+        // fill any slots nothing scored for, keeping to the slot rules, then lay the picks out in slot order:
+        // slots 1-2 hold column 1 perks, the last five hold the rest
+        const picks = top.picks.slice();
+        const late = () => picks.filter(p => p.col > 1).length;
+        for (const [ci, c] of top.a.cols.entries()) for (const p of c) {
+            if (picks.length >= A.slots || picks.some(x => x.n === p.n)) continue;
+            if (ci > 0 && (late() >= A.late || (ci === 2 && picks.filter(x => x.col === 3).length >= A.top))) continue;
+            if (!fits(p)) continue;
+            picks.push(Object.assign({ col: ci + 1, why: 'Filler: nothing else stands out, so any perk works here.', filler: true }, p));
+        }
+        const first = picks.filter(p => p.col === 1).slice(0, A.slots - A.late);
+        const slots = [...first, ...picks.filter(p => !first.includes(p)).sort((x, y) => x.col - y.col)];
+        return { name: top.a.n, icon: top.a.i, slots, total: A.slots,
+            alts: ranked.slice(1, 3).filter(r => r.total >= top.total * 0.75).map(r => r.a.n) };
     }
 
     function artifactHtml(rec, ctx) {
         if (!rec) return '';
-        return `<h3 class="panel-title">Artifact Perks <span class="panel-count">${ctx.esc(rec.name)} · ${rec.pts - rec.left} of ${rec.pts}</span></h3>
-            <div class="wperks">${rec.picks.map(p => `<div class="wperk">${ctx.img(p.i, 'wperk-icon')}<div>
-                <div class="wperk-name">${ctx.esc(p.n)} <span class="wperk-why">Tier ${p.tier} · ${ctx.esc(p.why)}</span></div>
-                <div class="wperk-text">${ctx.textHtml(p.d)}</div></div></div>`).join('')}</div>
-            ${rec.left ? `<p class="empty">${rec.left} point${rec.left > 1 ? 's' : ''} left: nothing else stands out for this build, so spend ${rec.left > 1 ? 'them' : 'it'} on anything.</p>` : ''}`;
+        const lead = rec.total - D.ARTI.late;
+        return `<h3 class="panel-title">Artifact <span class="panel-count">recommended · equip one</span></h3>
+            <div class="art-head">${ctx.img(rec.icon, 'art-icon')}<div>
+                <div class="art-name">${ctx.esc(rec.name)}</div>
+                <div class="wperk-text">${rec.alts.length ? `Also a good fit: ${rec.alts.map(ctx.esc).join(', ')}.` : 'Clearly the best artifact for this build.'}</div></div></div>
+            <div class="art-slots">${rec.slots.map((p, i) => `<div class="art-slot${p.filler ? ' filler' : ''}" title="${ctx.esc(p.n)}">
+                <span class="art-slot-num">${i + 1}</span>${ctx.img(p.i, 'art-slot-icon')}
+                <span class="art-slot-name">${ctx.esc(p.n)}</span><span class="art-slot-col">Col ${p.col}</span></div>`).join('')}</div>
+            <p class="art-rule">Slots 1-${lead} take column 1 perks only. Slots ${lead + 1}-${rec.total} take any column, with at most ${D.ARTI.top} from column 3.</p>
+            <div class="wperks">${rec.slots.map((p, i) => `<div class="wperk">${ctx.img(p.i, 'wperk-icon')}<div>
+                <div class="wperk-name">${ctx.esc(p.n)} <span class="wperk-why">Slot ${i + 1} · Column ${p.col}${p.why ? ' · ' + ctx.esc(p.why) : ''}</span></div>
+                <div class="wperk-text">${ctx.textHtml(p.d)}</div></div></div>`).join('')}</div>`;
     }
 
     function recommendSets(prof, ctx) {
@@ -314,7 +328,7 @@
             const armor = recommendArmor(state.cls, prof);
             const weapons = recommendWeapons(prof, ctx);
             const wperks = recommendPerks(prof);
-            const artifact = recommendArtifact(prof, weapons.map(w => ({ wt: w.wt, el: w.el, mod: w.ch ? null : (ctx.ARTIFACT[w.wt] || [])[1] })), build.grenade);
+            const artifact = recommendArtifact(prof, weapons.map(w => ({ wt: w.wt, el: w.el })), build.grenade, state.sub);
             const sets = recommendSets(prof, ctx);
             const stats = statPriority(prof);
             recs = `
@@ -416,11 +430,11 @@
     document.addEventListener('mousemove', e => moveTip(e.clientX, e.clientY));
     document.addEventListener('scroll', hideTip, true);
 
-    // Artifact picks for a curated build: lo is its LOADOUTS entry, weapons as in recommendArtifact
+    // Artifact pick for a curated build: lo is its LOADOUTS entry, weapons as in recommendArtifact
     function curatedArtifact(ctx, lo, aspects, weapons) {
         const opts = optionsFor(ctx.state.cls, ctx.state.sub);
         const build = validate({ super: lo[0], class: lo[1], move: lo[2], melee: lo[3], grenade: lo[4], aspects: [...aspects], fragments: [...lo[5]] }, opts);
-        return artifactHtml(recommendArtifact(profile(build, opts, ctx.state.sub), weapons, build.grenade), ctx);
+        return artifactHtml(recommendArtifact(profile(build, opts, ctx.state.sub), weapons, build.grenade, ctx.state.sub), ctx);
     }
 
     window.D2Custom = { render: (container, ctx) => { tipCtx = ctx; hideTip(); render(container, ctx); }, artifact: curatedArtifact };

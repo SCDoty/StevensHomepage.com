@@ -937,10 +937,8 @@
         const icons = ABILITY_ICONS[state.cls + '/' + state.sub];
 
         const picked = b.weapons.map(key => W[state.raid ? key : (b.noRaid[key] || W[key].noRaid || key)]);
-        const artifact = window.D2Custom ? window.D2Custom.artifact({ state, esc, textHtml, img }, lo, b.aspects, picked.map(w => {
-            const type = w.type.replace(/^(Kinetic|Solar|Arc|Void|Stasis|Strand) /, '');
-            return { wt: type, el: w.el, mod: w.champ ? null : (ARTIFACT[Object.keys(ARTIFACT).find(t => type.endsWith(t))] || [])[1] || null };
-        })) : '';
+        const artifact = window.D2Custom ? window.D2Custom.artifact({ state, esc, textHtml, img }, lo, b.aspects,
+            picked.map(w => ({ wt: w.type.replace(/^(Kinetic|Solar|Arc|Void|Stasis|Strand) /, ''), el: w.el }))) : '';
 
         const weapons = picked.map(w => {
             const [champ, how] = champOf(w);
