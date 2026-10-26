@@ -113,9 +113,9 @@
         promemoria:     { name: 'Pro Memoria', type: 'Strand Machine Gun', slot: 'Power', el: 'strand', source: 'Exploring the Pale Heart' }
     };
 
-    // Champion mods on the current seasonal artifact (Implement of Curiosity, Monument of Triumph).
-    // Update this table when the season changes.
-    const ARTIFACT_NAME = 'Implement of Curiosity';
+    // Champion mods on the current seasonal artifact. Monument of Triumph's Encrypted Data Disk reuses the
+    // Implement of Curiosity's perks. Update this table (and ARTI in destiny-custom-data.js) when the season changes.
+    const ARTIFACT_NAME = 'Encrypted Data Disk';
     const ARTIFACT = {
         'Hand Cannon': ['Barrier', 'Anti-Barrier Hand Cannon'],
         'Sniper Rifle': ['Barrier', 'Anti-Barrier Sniper Rifle'],
@@ -936,8 +936,13 @@
         const lo = LOADOUTS[state.cls][b.name];
         const icons = ABILITY_ICONS[state.cls + '/' + state.sub];
 
-        const weapons = b.weapons.map(key => {
-            const w = W[state.raid ? key : (b.noRaid[key] || W[key].noRaid || key)];
+        const picked = b.weapons.map(key => W[state.raid ? key : (b.noRaid[key] || W[key].noRaid || key)]);
+        const artifact = window.D2Custom ? window.D2Custom.artifact({ state, esc, textHtml, img }, lo, b.aspects, picked.map(w => {
+            const type = w.type.replace(/^(Kinetic|Solar|Arc|Void|Stasis|Strand) /, '');
+            return { wt: type, el: w.el, mod: w.champ ? null : (ARTIFACT[Object.keys(ARTIFACT).find(t => type.endsWith(t))] || [])[1] || null };
+        })) : '';
+
+        const weapons = picked.map(w => {
             const [champ, how] = champOf(w);
             return itemCard({
                 slot: w.slot, name: w.name, rarity: w.exotic ? 'exotic' : 'legendary',
@@ -1010,6 +1015,8 @@
 
                     <h3 class="panel-title">Legendary Armor Sets</h3>
                     <div class="items">${sets}</div>
+
+                    ${artifact}
                 </section>
             </div>`;
     }

@@ -195,6 +195,57 @@
             .map(({ p }) => Object.assign({ why: topMatches(p.t, prof, 2).join(', ') }, p));
     }
 
+    // Artifact: the champion mods your weapons need, then the best perks for the build within the point budget.
+    // weapons: [{ wt: 'Hand Cannon', el: 'arc', mod: 'Anti-Barrier Hand Cannon' | null }]
+    function recommendArtifact(prof, weapons, grenade) {
+        const A = D.ARTI;
+        if (!A) return null;
+        const mods = new Set(weapons.map(w => w.mod).filter(Boolean));
+        const fits = p => (!p.e || p.e.some(e => prof.elements.includes(e)))
+            && (!p.wt || weapons.some(w => p.wt.includes(w.wt)))
+            && (!p.we || weapons.some(w => p.we.includes(w.el)))
+            && (!p.g || p.g.includes(grenade));
+        // a perk tied to your weapons or grenade is a sure fit, so it gets a bonus on top of its tags
+        const score = p => fits(p) ? scoreTags(p.t, prof) + (p.wt || p.we || p.g ? 2 : 0) : 0;
+        // perks only taken to open a tier should at least work with this build
+        const tiers = A.tiers.map((t, ti) => t.p.map(p => ({ p, ti, need: ti === 0 && mods.has(p.n), s: ti === 0 ? 0 : score(p), ok: fits(p) && !p.wt }))
+            .sort((a, b) => b.need - a.need || b.s - a.s || b.ok - a.ok));
+
+        // try every number of perks per tier; a tier opens once enough perks are taken below it.
+        // Ties go to fewer perks, so zero-value perks are only taken to open a tier.
+        let best = null;
+        const counts = [];
+        (function walk(ti, used, total) {
+            if (ti === tiers.length) {
+                if (!best || total > best.total + 1e-9 || (total > best.total - 1e-9 && used < best.used)) best = { total, used, counts: [...counts] };
+                return;
+            }
+            for (let k = ti === 0 ? mods.size : 0; k <= tiers[ti].length && used + k <= A.pts; k++) {
+                if (k && used < A.tiers[ti].min) break;
+                counts[ti] = k;
+                walk(ti + 1, used + k, total + tiers[ti].slice(0, k).reduce((s, x) => s + x.s, 0));
+            }
+        })(0, 0, 0);
+
+        const picks = tiers.flatMap((list, ti) => list.slice(0, best.counts[ti])).map(x => {
+            const m = topMatches(x.p.t, prof, 2);
+            const why = x.need ? 'Stuns champions with your weapons.'
+                : x.s > 0 ? [x.p.wt || x.p.we || x.p.g ? 'Works with your loadout.' : '', m.length ? `Feeds ${m.join(', ')}.` : ''].filter(Boolean).join(' ')
+                : `Opens Tier ${best.counts.findIndex((k, i) => i > x.ti && k) + 1}.`;
+            return Object.assign({ tier: x.ti + 1, why }, x.p);
+        });
+        return { name: A.n, picks, left: A.pts - best.used, pts: A.pts };
+    }
+
+    function artifactHtml(rec, ctx) {
+        if (!rec) return '';
+        return `<h3 class="panel-title">Artifact Perks <span class="panel-count">${ctx.esc(rec.name)} · ${rec.pts - rec.left} of ${rec.pts}</span></h3>
+            <div class="wperks">${rec.picks.map(p => `<div class="wperk">${ctx.img(p.i, 'wperk-icon')}<div>
+                <div class="wperk-name">${ctx.esc(p.n)} <span class="wperk-why">Tier ${p.tier} · ${ctx.esc(p.why)}</span></div>
+                <div class="wperk-text">${ctx.textHtml(p.d)}</div></div></div>`).join('')}</div>
+            ${rec.left ? `<p class="empty">${rec.left} point${rec.left > 1 ? 's' : ''} left: nothing else stands out for this build, so spend ${rec.left > 1 ? 'them' : 'it'} on anything.</p>` : ''}`;
+    }
+
     function recommendSets(prof, ctx) {
         return Object.entries(ctx.S).filter(([key, s]) => ctx.state.raid || !s.raid)
             .map(([key, s]) => {
@@ -263,6 +314,7 @@
             const armor = recommendArmor(state.cls, prof);
             const weapons = recommendWeapons(prof, ctx);
             const wperks = recommendPerks(prof);
+            const artifact = recommendArtifact(prof, weapons.map(w => ({ wt: w.wt, el: w.el, mod: w.ch ? null : (ctx.ARTIFACT[w.wt] || [])[1] })), build.grenade);
             const sets = recommendSets(prof, ctx);
             const stats = statPriority(prof);
             recs = `
@@ -291,6 +343,8 @@
                 <div class="wperks">${wperks.map(p => `<div class="wperk">${img(p.i, 'wperk-icon')}<div>
                     <div class="wperk-name">${esc(p.n)} <span class="wperk-why">${esc(p.why)}</span></div>
                     <div class="wperk-text">${textHtml(p.d)}</div></div></div>`).join('')}</div>` : ''}
+
+                ${artifactHtml(artifact, ctx)}
 
                 <h3 class="panel-title">Legendary Armor Sets</h3>
                 <div class="items">${sets.length ? sets.map((x, i) => itemCard({
@@ -362,5 +416,12 @@
     document.addEventListener('mousemove', e => moveTip(e.clientX, e.clientY));
     document.addEventListener('scroll', hideTip, true);
 
-    window.D2Custom = { render: (container, ctx) => { tipCtx = ctx; hideTip(); render(container, ctx); } };
+    // Artifact picks for a curated build: lo is its LOADOUTS entry, weapons as in recommendArtifact
+    function curatedArtifact(ctx, lo, aspects, weapons) {
+        const opts = optionsFor(ctx.state.cls, ctx.state.sub);
+        const build = validate({ super: lo[0], class: lo[1], move: lo[2], melee: lo[3], grenade: lo[4], aspects: [...aspects], fragments: [...lo[5]] }, opts);
+        return artifactHtml(recommendArtifact(profile(build, opts, ctx.state.sub), weapons, build.grenade), ctx);
+    }
+
+    window.D2Custom = { render: (container, ctx) => { tipCtx = ctx; hideTip(); render(container, ctx); }, artifact: curatedArtifact };
 })();
